@@ -6,7 +6,7 @@ const verifyRole=(allowedRoles)=>{
         if(allowedRoles.includes(req.user.role)){
             next()
         }else{
-            res.status(403).json({success:false,message:"Admin only tu gand mara"})
+            res.status(403).json({success:false,message:"Admin only tu nikal"})
         }
     }
 }

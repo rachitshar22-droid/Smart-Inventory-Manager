@@ -1,5 +1,5 @@
 require('dotenv').config()
-require('./services/whatsappCron')
+require('./services/expiryCron')
 const express = require('express');
 const mongoose = require('mongoose')
 const cors = require('cors')

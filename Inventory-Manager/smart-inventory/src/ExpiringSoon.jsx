@@ -19,26 +19,42 @@ export default function ExpiringSoon() {
     }, [])
 
     return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold text-red-600 mb-6 border-b-2 border-red-200 pb-2">
+        <div className="min-h-screen bg-slate-950 p-6 md:p-10 text-slate-100">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-rose-500 mb-6 border-b border-slate-800 pb-4">
                 🚨 Expiring Soon (Khatre Ki Ghanti)
             </h1>
 
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {inventory.length === 0 ? (
-                    <p className="text-gray-500 font-semibold">Bhai sab theek hai, koi saman nahi kharab hone wala abhi! Chill kar.</p>
+                    <p className="text-slate-400 font-semibold bg-slate-900 p-6 rounded-2xl border border-slate-800 col-span-full">
+                        Bhai sab theek hai, koi saman nahi kharab hone wala abhi! Chill kar.
+                    </p>
                 ) : (
                     inventory.map((item) => (
-                        <div key={item._id} className="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">
-                            <h2 className="text-xl font-bold text-gray-800 uppercase">{item.productName}</h2>
-                            <p className="text-gray-600 mt-2">
-                                <span className="font-semibold">Category:</span> {item.category}
+                        <div
+                            key={item._id}
+                            className="bg-slate-900 border-l-4  p-6 rounded-2xl shadow-xl border border-slate-800 flex flex-col gap-2"
+                        >
+                            <h2 className="text-xl font-extrabold text-white uppercase tracking-tight">
+                                {item.productName}
+                            </h2>
+                            <p className="text-sm text-slate-300 mt-1">
+                                <span className="font-semibold text-slate-400">Category:</span> {item.category}
                             </p>
-                            <div className="mt-3 bg-red-100 text-red-800 text-sm font-bold px-3 py-1 rounded inline-block">
-                                Days Left: {item.daysRemaining}
+                            {item.expiryDate && (
+                                <p className="text-sm text-slate-300">
+                                    <span className="font-semibold text-slate-400">Expiry Date:</span>{' '}
+                                    <span className="text-amber-400 font-bold">
+                                        {item.expiryDate.split('T')[0].split('-').reverse().join('-')}
+                                    </span>
+                                </p>
+                            )}
+                            <div className="mt-3 bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-bold px-3 py-1.5 rounded-lg self-start">
+                                ⏳ Days Left: {item.daysRemaining}
                             </div>
-                            <p className="text-xs text-gray-500 mt-2">Backend Status: {item.status}</p>
+                            <p className="text-xs text-slate-500 mt-2 pt-2 border-t border-slate-800">
+                                Backend Status: <span className="text-slate-300 font-semibold">{item.status}</span>
+                            </p>
                         </div>
                     ))
                 )}

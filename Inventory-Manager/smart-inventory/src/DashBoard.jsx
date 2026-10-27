@@ -54,22 +54,71 @@ export default function DashBoard(){
             console.log("Chud gya",error)
         }
     } //When the war is over we finally get married and earth will grow flowers like you and your womb will carry the most beautiful girl in the universe
-    return(
+    return (
+    <div className="min-h-screen bg-slate-950 p-6 md:p-10 text-slate-100">
+      {/* Top Bar with Title & Logout */}
+      <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
         <div>
-            <button onClick={handleLogout} className="bg-red-500 text-white p-2">Logout</button>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-8 bg-gray-50 min-h-screen items-start">
-            {allData.map((stock)=>(
-                <div className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-shadow border border-gray-100 flex flex-col gap-3" key={stock._id} style={{border:"1px solid black",margin:'10px'}}>
-                    <h2>Product Name: {stock.productName}</h2>
-                    <p>Batch Number: {stock.batchNo}</p>
-                    <p>Category: {stock.category}</p>
-                    <p>Quantity: {stock.quantity}</p>
-                    <p>Expiry Date: {stock.expiryDate}</p>
-                    <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold w-full" onClick={()=>handleDelete(stock._id)}>Delete</button>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-bold w-full mt-2" onClick={()=>navigate('/addstock',{state:{editData:stock}})}>Update</button>
-                    </div>
-            ))}
+          <h1 className="text-2xl font-extrabold text-white tracking-tight">Inventory Dashboard</h1>
+          <p className="text-xs text-slate-400 mt-1">Monitor and manage all active stock batches</p>
         </div>
-        </div>
-    )
+        <button
+          onClick={handleLogout}
+          className="bg-rose-600 hover:bg-rose-700 text-white text-sm font-bold px-4 py-2 rounded-xl shadow-lg transition-all cursor-pointer"
+        >
+          Logout
+        </button>
+      </div>
+
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        {allData.map((stock) => (
+          <div
+            key={stock._id}
+            className="bg-slate-900 p-6 rounded-2xl shadow-xl border border-slate-800 hover:border-slate-700 transition-all flex flex-col gap-3"
+          >
+            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+              <h2 className="text-lg font-extrabold text-white">{stock.productName}</h2>
+              <span className="text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-1 rounded-lg">
+                {stock.category}
+              </span>
+            </div>
+
+            <div className="text-sm text-slate-300 space-y-2 py-2">
+              <p className="flex justify-between">
+                <span className="text-slate-400">Batch Number:</span>
+                <span className="font-semibold text-white">{stock.batchNo}</span>
+              </p>
+              <p className="flex justify-between">
+                <span className="text-slate-400">Quantity:</span>
+                <span className="font-semibold text-emerald-400">{stock.quantity} units</span>
+              </p>
+              <p className="flex justify-between">
+                <span className="text-slate-400">Expiry Date:</span>
+                <span className="font-semibold text-amber-400">
+                  {stock.expiryDate ? stock.expiryDate.split('T')[0].split('-').reverse().join('-') : 'N/A'}
+                </span>
+              </p>
+            </div>
+
+            <div className="flex gap-3 pt-3 border-t border-slate-800">
+              <button
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-bold text-sm w-full transition-colors cursor-pointer"
+                onClick={() => navigate('/addstock', { state: { editData: stock } })}
+              >
+                Update
+              </button>
+              <button
+                className="bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/30 px-4 py-2.5 rounded-xl font-bold text-sm w-full transition-colors cursor-pointer"
+                onClick={() => handleDelete(stock._id)}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+       
 }
