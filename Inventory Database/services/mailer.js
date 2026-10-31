@@ -17,4 +17,13 @@ async function sendExpiryAlert(items) {
   });
 }
 
-module.exports = { sendExpiryAlert };
+async function sendOtpMail(to,otp){
+  await transporter.sendMail({
+    from:`"Smart Inventory"<${process.env.EMAIL_USER}>`,
+    to:to,
+    subject:'Aapka Otp',
+    text:`Aapka OTP ${otp} hai.Ye 5 min mai expire hojayega.Kisi ko mat btana`
+  })
+}
+
+module.exports = { sendExpiryAlert,sendOtpMail};

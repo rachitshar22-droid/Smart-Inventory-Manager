@@ -2,25 +2,6 @@ const mainUser=require("../models/User")
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 
-const signUpUser=async(req,res)=>{
-    try{
-        const{username,password}=req.body
-        if(!username||!password){
-            return res.status(400).json({success:false,message:"username password kha hai"})
-        }
-        const salt=await bcrypt.genSalt(10)
-        const hashesdPassword=await bcrypt.hash(password,salt)
-        const newUser=new mainUser({
-            username:username,
-            password:hashesdPassword
-        })
-        await newUser.save()
-        res.json({success:true,message:"Hogya hash"})
-    }catch(error){
-        res.status(500).json({success:false,error:error.message})
-    }
-}
-
 const loginUser=async(req,res)=>{
     try{
         const{username,password}=req.body
@@ -37,7 +18,7 @@ const loginUser=async(req,res)=>{
             return res.status(401).json({success:false,message:"password galat"})
         }
 
-        const tokenData={userId: foundUser._id, role:foundUser._role}
+        const tokenData={userId: foundUser._id, role:foundUser.role}
         const accessToken=jwt.sign(tokenData,process.env.JWT_ACCESS_SECRET,{expiresIn:'15m'})
         const refreshToken=jwt.sign(tokenData,process.env.JWT_REFRESH_SECRET,{expiresIn:'7d'})
 
@@ -83,4 +64,4 @@ const logoutUser=(req,res)=>{
 }
 
 
-module.exports={loginUser,signUpUser,refreshAccessToken,logoutUser}
+module.exports={loginUser,refreshAccessToken,logoutUser}

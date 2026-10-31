@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Link, Navigate,useLocation} from 'react-router-dom'
 import AddInventory from './AddInventory'
 import DashBoard from './DashBoard'
 import ExpiringSoon from './ExpiringSoon'
@@ -6,13 +6,13 @@ import LoginForm from './LoginForm'
 import PrivateRoute from './PrivateRoute'
 import { useAuth } from './AuthContext'
 import React, { useState } from 'react'
-export default function App() {
+ function AppContent() {
+  const {pathname}=useLocation()
   const{accessToken}=useAuth()
   const[menuOpen,setMenuOpen]=useState(false)
   return (
-    <BrowserRouter>
       <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
-        {accessToken && (
+        {accessToken &&  pathname!=="/login" &&(
           <>
             {/* Mobile Top Header & Hamburger Button */}
             <div className="md:hidden flex items-center justify-between bg-slate-900 px-5 py-4 border-b border-slate-800">
@@ -84,6 +84,12 @@ export default function App() {
           </Routes>
         </div>
       </div>
-    </BrowserRouter>
   )
+}
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
 }

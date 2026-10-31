@@ -26,7 +26,7 @@ const getInventory= async (req, res) => {
 
             let alertMsg="Abhi time hai"
             if(daysLeft<=3 && daysLeft>=0){
-                alertMsg="Saman Chudne Wala hai"
+                alertMsg="Saman expire hone Wala hai"
             }else if(daysLeft<0){
                 alertMsg="Saman expire hogya"
             }
