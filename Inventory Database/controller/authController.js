@@ -18,7 +18,7 @@ const loginUser=async(req,res)=>{
             return res.status(401).json({success:false,message:"password galat"})
         }
 
-        const tokenData={userId: foundUser._id, role:foundUser.role}
+        const tokenData={userId: foundUser._id, role:foundUser.role,tenantId:foundUser.tenantId}
         const accessToken=jwt.sign(tokenData,process.env.JWT_ACCESS_SECRET,{expiresIn:'15m'})
         const refreshToken=jwt.sign(tokenData,process.env.JWT_REFRESH_SECRET,{expiresIn:'7d'})
 
@@ -47,7 +47,7 @@ const refreshAccessToken=(req,res)=>{
             if(err){
                 return res.status(403).json({success:false,message:"Token expired/invalid hai"})
             }
-            const newAccessToken=jwt.sign({userId:decoded.userId,role:decoded.role},process.env.JWT_ACCESS_SECRET,{expiresIn:'15m'})
+            const newAccessToken=jwt.sign({userId:decoded.userId,role:decoded.role,tenantId: decoded.tenantId},process.env.JWT_ACCESS_SECRET,{expiresIn:'15m'})
             res.json({success:true,accessToken:newAccessToken})
         })
     }catch(error){

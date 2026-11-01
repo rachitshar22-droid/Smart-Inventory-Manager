@@ -1,14 +1,13 @@
 const mainInventory = require('../models/Inventory')
 
-
 const addInventory= async (req, res) => {
     try {
         const { productName, batchNo, category, quantity, expiryDate } = req.body
         if (!productName || !quantity || !expiryDate || !category || !batchNo) {
-            return res.status(400).json({ success: false, error: "Data tu bharle madarchod" })
+            return res.status(400).json({ success: false, error: "Data tu bharle " })
         }
-        const bakchodi = new mainInventory(req.body)
-        await bakchodi.save()
+        const newItem = new mainInventory({productName,batchNo,category,quantity,expiryDate,tenantId:req.user.tenantId,})
+        await newItem.save()
         res.json({ success: true, message: "Hogya Bhai" })
     } catch (error) {
         res.status(500).json({ success: false, error: error.message })
@@ -17,9 +16,10 @@ const addInventory= async (req, res) => {
 
 const getInventory= async (req, res) => {
     try {
-        const chodu = await mainInventory.find()
+        const data = await mainInventory.find({tenantId: req.user.tenantId})
+        //console.log('TENAT:',req.user.tenantId,'COUNT:',data.length)
         const aajKiTarikh = new Date()
-        const updatedInventory = chodu.map((item) => {
+        const updatedInventory = data.map((item) => {
             const expiry = new Date(item.expiryDate)
             const timeDifference=expiry-aajKiTarikh
             const daysLeft=Math.ceil(timeDifference/(1000*60*60*24))
@@ -43,21 +43,32 @@ const getInventory= async (req, res) => {
 }
 
 const updateInventory= async (req, res) => {
+    const allowed=['productName','batchNo','category','quantity','expiryDate']
+    const updates={}
+    allowed.forEach((k)=>{if(req.body[k]!==undefined)updates[k]=req.body[k]})
     try {
-        const lodo = await mainInventory.findByIdAndUpdate(
-            req.params.id,
-            req.body,
+        const update = await mainInventory.findByIdAndUpdate(
+            {_id:req.params.id,tenantId:req.user.tenantId},
+            updates,
             { new: true }
         )
-        res.json({ success: true, data: chodu })
+        if(!update) return res.status(404).json({success:false,message:'Item nhi mila'})
+        res.json({ success: true, data: update })
     } catch (error) {
         res.status(500).json({ success: false, error: error.message })
     }
 }
 
 const deleteInventory= async (req, res) => {
-    await mainInventory.findByIdAndDelete(req.params.id)
-    res.json({ success: true, message: "Done hai bro" })
+    try{
+        const deleted=await mainInventory.findOneAndDelete({
+            _id:req.params.id,tenantId:req.user.tenantId,
+        })
+        if(!deleted) return res.status(404).json({success:false,message:'Item nhi mila'})
+            res.json({success:true,message:'Done hai bro'})
+    }catch(error){
+        res.status(500).json({success:false,error:error.message})
+    }
 }
 
 module.exports={addInventory,getInventory,updateInventory,deleteInventory}

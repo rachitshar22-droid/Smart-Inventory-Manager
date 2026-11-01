@@ -83,11 +83,9 @@ export default function LoginForm() {
             const data = await response.json();
             if (data.success) {
                 alert("Signup SuccessFully Please Login");
-                setIsLoginView(true);
+                setIsLoginView(false);
                 setIsOtpSent(false); // Reset for future
                 setName("")
-                setUsername("")
-                setPassword("")
                 setEmail("")
                 setOtp("")
             } else {

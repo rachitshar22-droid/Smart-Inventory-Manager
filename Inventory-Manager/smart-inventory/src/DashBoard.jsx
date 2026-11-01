@@ -1,60 +1,62 @@
-import { useState,useEffect } from "react"
-import {useNavigate} from 'react-router-dom'
+import { useState, useEffect } from "react"
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from "./AuthContext"
 
-export default function DashBoard(){
-    const {accessToken,setAccessToken}=useAuth()
-    const navigate=useNavigate()
-    const[allData,setAllData]=useState([])
-    useEffect(()=>{
-        fetchData()
-    },[])
+export default function DashBoard() {
+  const { accessToken, setAccessToken } = useAuth()
+  const navigate = useNavigate()
+  const [allData, setAllData] = useState([])
+  useEffect(() => {
+    fetchData()
+  }, [])
 
-    const handleLogout=async()=>{
-        try{
-            await fetch('http://localhost:3000/api/auth/logout',{
-                method:'POST',
-                credentials:'include'
-            })
-            setAccessToken(null)
-            navigate('/login')
-        }catch(error){
-            console.log(error)
-        }
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:3000/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      })
+      setAccessToken(null)
+      navigate('/login')
+    } catch (error) {
+      console.log(error)
     }
+  }
 
-    const handleDelete=async(id)=>{
-        try{
-            await fetch(`http://localhost:3000/api/inventory/${id}`,{
-                method:"DELETE",
-                headers:{
-                    'Authorization':`Bearer ${accessToken}`
-                }
-            })
-            setAllData(allData.filter((item)=>item._id!==id))
-        }catch(error){
-            console.log("Nhi hua Delete",error)
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/inventory/${id}`, {
+        method: "DELETE",
+        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
         }
+      })
+      setAllData(allData.filter((item) => item._id !== id))
+    } catch (error) {
+      console.log("Nhi hua Delete", error)
     }
+  }
 
-    const fetchData=async()=>{
-        try{
-            const response=await fetch('http://localhost:3000/api/inventory',{
-                method:'GET',
-                headers:{
-                    'Authoriztion':`Bearer ${accessToken}`
-                }
-            })
-            const data=await response.json()
-            
-            if(data.success){
-                setAllData(data.data)
-            }
-        }catch(error){
-            console.log("Chud gya",error)
+  const fetchData = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/inventory', {
+        method: 'GET',
+        credentials:'include',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
         }
-    } //When the war is over we finally get married and earth will grow flowers like you and your womb will carry the most beautiful girl in the universe
-    return (
+      })
+      const data = await response.json()
+
+      if (data.success) {
+        setAllData(data.data)
+      }
+    } catch (error) {
+      console.log("failed", error)
+    }
+  } //When the war is over we finally get married and earth will grow flowers like you and your womb will carry the most beautiful girl in the universe
+  return (
     <div className="min-h-screen bg-slate-950 p-6 md:p-10 text-slate-100">
       {/* Top Bar with Title & Logout */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
@@ -120,5 +122,5 @@ export default function DashBoard(){
       </div>
     </div>
   )
-       
+
 }

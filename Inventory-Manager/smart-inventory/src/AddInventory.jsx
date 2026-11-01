@@ -38,6 +38,7 @@ export default function AddInventory() {
       try {
         const response = await fetch("http://localhost:3000/api/ai/scan", {
           method: "POST",
+          credentials:'include',
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${accessToken}`
@@ -72,25 +73,37 @@ export default function AddInventory() {
       if (editData) {
         const response = await fetch(`http://localhost:3000/api/inventory/${editData._id}`, {
           method: "PUT",
+          credentials:'include',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`
           },
           body: JSON.stringify(newData)
         })
+        if(!response.ok){
+          const err=await response.json()
+          alert(err.error||err.message||'Update Failed')
+          return
+        }
         console.log("Updated successFully")
         alert("Done Hogya")
       } else {
         const response = await fetch('http://localhost:3000/api/inventory', {
           method: 'POST',
+          credentials:'include',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${accessToken}`
           },
           body: JSON.stringify(newData)
         })
+        if(!response.ok){
+          const err=await response.json()
+          alert(err.error||err.message||'Add Failed')
+          return
+        }
         const result = await response.json()
-        console.log('Hogya Gandu', result)
+        console.log('Hogya bhai', result)
       }
       navigate('/dashboard')
     } catch (error) {

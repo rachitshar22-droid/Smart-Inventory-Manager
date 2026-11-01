@@ -104,6 +104,7 @@ const signUp=async(req,res)=>{
         email:cleanEmail,
         password:hashedPassword,
         role:'User',
+        tenantId:crypto.randomUUID(),
     })
 
     //otp ka kaam khtm delete
