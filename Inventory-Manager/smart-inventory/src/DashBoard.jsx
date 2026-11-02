@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from "./AuthContext"
 
 export default function DashBoard() {
-  const { accessToken, setAccessToken } = useAuth()
+  const { authFetch } = useAuth()
   const navigate = useNavigate()
   const [allData, setAllData] = useState([])
   useEffect(() => {
@@ -12,9 +12,8 @@ export default function DashBoard() {
 
   const handleLogout = async () => {
     try {
-      await fetch('http://localhost:3000/api/auth/logout', {
+      await authFetch('http://localhost:3000/api/auth/logout', {
         method: 'POST',
-        credentials: 'include'
       })
       setAccessToken(null)
       navigate('/login')
@@ -25,12 +24,8 @@ export default function DashBoard() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/inventory/${id}`, {
+      await authFetch(`http://localhost:3000/api/inventory/${id}`, {
         method: "DELETE",
-        credentials: 'include',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
       })
       setAllData(allData.filter((item) => item._id !== id))
     } catch (error) {
@@ -40,12 +35,8 @@ export default function DashBoard() {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/inventory', {
+      const response = await authFetch('http://localhost:3000/api/inventory', {
         method: 'GET',
-        credentials:'include',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
       })
       const data = await response.json()
 

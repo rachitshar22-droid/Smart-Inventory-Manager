@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext"
 
 
 export default function AddInventory() {
-  const { accessToken } = useAuth()
+  const { authFetch } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [productName, setProductName] = useState("")
@@ -36,12 +36,12 @@ export default function AddInventory() {
     reader.onloadend = async () => {
       const base64String = reader.result
       try {
-        const response = await fetch("http://localhost:3000/api/ai/scan", {
+        const response = await authFetch("http://localhost:3000/api/ai/scan", {
           method: "POST",
-          credentials:'include',
+          
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`
+            
           },
           body:JSON.stringify({imageBase64:base64String})
         })
@@ -71,12 +71,12 @@ export default function AddInventory() {
     const newData = { productName, batchNo, category, quantity, expiryDate }
     try {
       if (editData) {
-        const response = await fetch(`http://localhost:3000/api/inventory/${editData._id}`, {
+        const response = await authFetch(`http://localhost:3000/api/inventory/${editData._id}`, {
           method: "PUT",
-          credentials:'include',
+         
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+           
           },
           body: JSON.stringify(newData)
         })
@@ -88,12 +88,12 @@ export default function AddInventory() {
         console.log("Updated successFully")
         alert("Done Hogya")
       } else {
-        const response = await fetch('http://localhost:3000/api/inventory', {
+        const response = await authFetch('http://localhost:3000/api/inventory', {
           method: 'POST',
-          credentials:'include',
+          
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`
+            
           },
           body: JSON.stringify(newData)
         })

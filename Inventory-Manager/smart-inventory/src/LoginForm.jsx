@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import ForgotPassword from "./ForgotPassword"; // <-- 1. Import add kiya
 
 export default function LoginForm() {
     // --- View Toggle State ---
     const [isLoginView, setIsLoginView] = useState(true);
+    const [isForgotView, setIsForgotView] = useState(false); // <-- 2. Forgot Password State
     const [isOtpSent, setIsOtpSent] = useState(false);
     const [isSendingOtp, setIsSendingOtp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -83,11 +85,11 @@ export default function LoginForm() {
             const data = await response.json();
             if (data.success) {
                 alert("Signup SuccessFully Please Login");
-                setIsLoginView(false);
+                setIsLoginView(true); // <-- Isko true kar diya taaki seedha Login view khule
                 setIsOtpSent(false); // Reset for future
-                setName("")
-                setEmail("")
-                setOtp("")
+                setName("");
+                setEmail("");
+                setOtp("");
             } else {
                 alert(data.error || data.message);
             }
@@ -242,193 +244,203 @@ export default function LoginForm() {
                 </div>
             </div>
 
-            {/* RIGHT SECTION: Dynamic Auth Card */}
-            <div className="relative z-20 w-5/12 max-w-sm bg-white text-slate-900 rounded-2xl p-4 shadow-2xl border border-slate-100 flex flex-col justify-between max-h-[92vh] overflow-hidden">
+            {/* RIGHT SECTION: Dynamic Auth Card OR Forgot Password */}
+            {isForgotView ? (
+                <div className="relative z-20 w-5/12 max-w-sm">
+                    <ForgotPassword onBack={() => setIsForgotView(false)} />
+                </div>
+            ) : (
+                <div className="relative z-20 w-5/12 max-w-sm bg-white text-slate-900 rounded-2xl p-4 shadow-2xl border border-slate-100 flex flex-col justify-between max-h-[92vh] overflow-hidden">
 
-                <div>
-                    <div className="flex flex-col items-center text-center mb-2.5">
-                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md mb-1">
-                            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                            </svg>
+                    <div>
+                        <div className="flex flex-col items-center text-center mb-2.5">
+                            <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md mb-1">
+                                <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-sm font-extrabold text-slate-900 leading-tight">Smart Inventory</h3>
+                            <span className="text-[11px] font-extrabold text-blue-600 leading-tight">Manager</span>
                         </div>
-                        <h3 className="text-sm font-extrabold text-slate-900 leading-tight">Smart Inventory</h3>
-                        <span className="text-[11px] font-extrabold text-blue-600 leading-tight">Manager</span>
+
+                        {isLoginView ? (
+                            /* ================= LOGIN VIEW ================= */
+                            <>
+                                <div className="text-center mb-3.5 border-t border-slate-100 pt-2">
+                                    <h2 className="text-base font-extrabold text-slate-900">Welcome Back!</h2>
+                                    <p className="text-[11px] text-slate-500 font-medium mt-0.5">Sign in to access your inventory dashboard</p>
+                                </div>
+
+                                <form onSubmit={handleLogin} className="space-y-3">
+                                    <div>
+                                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Username</label>
+                                        <input
+                                            type="text"
+                                            placeholder="Enter your username"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[11px] font-bold text-slate-700 mb-1">Password</label>
+                                        <div className="relative">
+                                            <input
+                                                type={showPassword ? "text" : "password"}
+                                                placeholder="Enter your password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                className="w-full px-3 py-2 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
+                                            >
+                                                {showPassword ? (
+                                                    /* Khuli hui Aankh */
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                                ) : (
+                                                    /* Band Aankh */
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center justify-between text-[11px] pt-0.5">
+                                        <label className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-pointer">
+                                            <input type="checkbox" defaultChecked className="w-3 h-3 rounded text-blue-600" />
+                                            Remember me
+                                        </label>
+                                        {/* 3. Forgot Password Click Trigger */}
+                                        <span 
+                                            onClick={() => setIsForgotView(true)} 
+                                            className="text-blue-600 font-bold hover:underline cursor-pointer"
+                                        >
+                                            Forgot password?
+                                        </span>
+                                    </div>
+
+                                    <button type="submit" className="w-full py-2.5 bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1">
+                                        <span>Secure Login</span><span>→</span>
+                                    </button>
+                                </form>
+
+                                <div className="mt-3 text-center">
+                                    <p className="text-[11px] text-slate-600 font-medium">
+                                        Don't have an account?{" "}
+                                        <span onClick={() => setIsLoginView(false)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
+                                            Sign up
+                                        </span>
+                                    </p>
+                                </div>
+                            </>
+                        ) : (
+                            /* ================= SIGNUP VIEW ================= */
+                            <>
+                                <div className="text-center mb-2.5 border-t border-slate-100 pt-2">
+                                    <h2 className="text-base font-extrabold text-slate-900">Create Account</h2>
+                                    <p className="text-[10px] text-slate-500 font-medium">Join to manage your inventory smarter</p>
+                                </div>
+
+                                <form onSubmit={handleSignup} className="space-y-1">
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Full Name</label>
+                                        <input
+                                            type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)}
+                                            className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Username</label>
+                                        <input
+                                            type="text" placeholder="johndoe123" value={username} onChange={(e) => setUsername(e.target.value)}
+                                            className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Password</label>
+                                        <div className="relative">
+                                            <input
+                                                type={showPassword ? "text" : "password"}
+                                                placeholder="Create strong password"
+                                                value={password}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                className="w-full px-3 py-1.5 pr-10 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
+                                            >
+                                                {showPassword ? (
+                                                    /* Khuli hui Aankh (Show Password) */
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                                ) : (
+                                                    /* Band Aankh (Hide Password) */
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Email Address</label>
+                                        <div className="flex gap-1.5">
+                                            <input
+                                                type="email" placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
+                                                disabled={isOtpSent}
+                                                className="w-2/3 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all disabled:opacity-50"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={handleGetOtp}
+                                                disabled={isSendingOtp}
+                                                className="w-1/3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 font-extrabold text-[10px] rounded-lg border border-blue-200 transition-colors cursor-pointer shrink-0 disabled:opacity-50"
+                                            >
+                                                {isSendingOtp ? "Sending..." : (isOtpSent ? "Resend" : "Send OTP")}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {isOtpSent && (
+                                        <>
+                                            <div>
+                                                <label className="block text-[10px] font-bold text-slate-700 mb-0.5 mt-2">Verify OTP</label>
+                                                <input
+                                                    type="text" placeholder="Enter 6-digit OTP" value={otp} onChange={(e) => setOtp(e.target.value)}
+                                                    className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-bold tracking-widest focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
+                                                />
+                                            </div>
+
+                                            <button type="submit" className="w-full py-2 bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer mt-1.5">
+                                                Create Account →
+                                            </button>
+                                        </>
+                                    )}
+                                </form>
+
+                                <div className="mt-2.5 text-center">
+                                    <p className="text-[11px] text-slate-600 font-medium">
+                                        Already have an account?{" "}
+                                        <span onClick={() => setIsLoginView(true)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
+                                            Login
+                                        </span>
+                                    </p>
+                                </div>
+                            </>
+                        )}
                     </div>
 
-                    {isLoginView ? (
-                        /* ================= LOGIN VIEW ================= */
-                        <>
-                            <div className="text-center mb-3.5 border-t border-slate-100 pt-2">
-                                <h2 className="text-base font-extrabold text-slate-900">Welcome Back!</h2>
-                                <p className="text-[11px] text-slate-500 font-medium mt-0.5">Sign in to access your inventory dashboard</p>
-                            </div>
-
-                            <form onSubmit={handleLogin} className="space-y-3">
-                                <div>
-                                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Username</label>
-                                    <input
-                                        type="text"
-                                        placeholder="Enter your username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[11px] font-bold text-slate-700 mb-1">Password</label>
-                                    <div className="relative">
-                                        <input
-                                            type={showPassword ? "text" : "password"}
-                                            placeholder="Enter your password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            className="w-full px-3 py-2 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
-                                        >
-                                            {showPassword ? (
-                                                /* Khuli hui Aankh */
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                            ) : (
-                                                /* Band Aankh */
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center justify-between text-[11px] pt-0.5">
-                                    <label className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-pointer">
-                                        <input type="checkbox" defaultChecked className="w-3 h-3 rounded text-blue-600" />
-                                        Remember me
-                                    </label>
-                                    <span className="text-blue-600 font-bold hover:underline cursor-pointer">Forgot password?</span>
-                                </div>
-
-                                <button type="submit" className="w-full py-2.5 bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1">
-                                    <span>Secure Login</span><span>→</span>
-                                </button>
-                            </form>
-
-                            <div className="mt-3 text-center">
-                                <p className="text-[11px] text-slate-600 font-medium">
-                                    Don't have an account?{" "}
-                                    <span onClick={() => setIsLoginView(false)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
-                                        Sign up
-                                    </span>
-                                </p>
-                            </div>
-                        </>
-                    ) : (
-                        /* ================= SIGNUP VIEW ================= */
-                        <>
-                            <div className="text-center mb-2.5 border-t border-slate-100 pt-2">
-                                <h2 className="text-base font-extrabold text-slate-900">Create Account</h2>
-                                <p className="text-[10px] text-slate-500 font-medium">Join to manage your inventory smarter</p>
-                            </div>
-
-                            <form onSubmit={handleSignup} className="space-y-1">
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Full Name</label>
-                                    <input
-                                        type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Username</label>
-                                    <input
-                                        type="text" placeholder="johndoe123" value={username} onChange={(e) => setUsername(e.target.value)}
-                                        className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
-                                    />
-                                </div>
-
-
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Password</label>
-                                    <div className="relative">
-                                        <input
-                                            type={showPassword ? "text" : "password"}
-                                            placeholder="Create strong password"
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            // pr-10 add kiya hai taaki text type karte waqt icon ke neeche na dabe
-                                            className="w-full px-3 py-1.5 pr-10 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
-                                        >
-                                            {showPassword ? (
-                                                /* Khuli hui Aankh (Show Password) */
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                                            ) : (
-                                                /* Band Aankh (Hide Password) */
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Email Address</label>
-                                    <div className="flex gap-1.5">
-                                        <input
-                                            type="email" placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
-                                            disabled={isOtpSent}
-                                            className="w-2/3 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:bg-white transition-all disabled:opacity-50"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={handleGetOtp}
-                                            disabled={isSendingOtp}
-                                            className="w-1/3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 font-extrabold text-[10px] rounded-lg border border-blue-200 transition-colors cursor-pointer shrink-0 disabled:opacity-50"
-                                        >
-                                            {isSendingOtp ? "Sending..." : (isOtpSent ? "Resend" : "Send OTP")}
-                                        </button>
-                                    </div>
-                                </div>
-
-                                {isOtpSent && (
-                                    <>
-                                        <div>
-                                            <label className="block text-[10px] font-bold text-slate-700 mb-0.5 mt-2">Verify OTP</label>
-                                            <input
-                                                type="text" placeholder="Enter 6-digit OTP" value={otp} onChange={(e) => setOtp(e.target.value)}
-                                                className="w-full px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-800 font-bold tracking-widest focus:outline-none focus:border-blue-600 focus:bg-white transition-all"
-                                            />
-                                        </div>
-
-                                        <button type="submit" className="w-full py-2 bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer mt-1.5">
-                                            Create Account →
-                                        </button>
-                                    </>
-                                )}
-                            </form>
-
-                            <div className="mt-2.5 text-center">
-                                <p className="text-[11px] text-slate-600 font-medium">
-                                    Already have an account?{" "}
-                                    <span onClick={() => setIsLoginView(true)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
-                                        Login
-                                    </span>
-                                </p>
-                            </div>
-                        </>
-                    )}
+                    <div className="border-t border-slate-100 pt-2 mt-2 text-center">
+                        <p className="text-[10px] font-bold text-slate-500">Smart Inventory Manager</p>
+                        <p className="text-[9px] text-slate-400">Dead Inventory Analysis & Sorting</p>
+                    </div>
                 </div>
-
-                <div className="border-t border-slate-100 pt-2 mt-2 text-center">
-                    <p className="text-[10px] font-bold text-slate-500">Smart Inventory Manager</p>
-                    <p className="text-[9px] text-slate-400">Dead Inventory Analysis & Sorting</p>
-                </div>
-            </div>
+            )}
         </div>
     );
 }

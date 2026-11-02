@@ -5,6 +5,7 @@ const{loginUser,refreshAccessToken,logoutUser}=require('../controller/authContro
 const {sendOtp,signUp}=require('../controller/signupController')
 const fetchUser=require('../middlewear/fetchUser')
 const verifyRole=require('../middlewear/verifyRole')
+const {sendOtpReset,verifyOtp,resetPassword}=require('../controller/forgotController')
 
 
 const loginLimit=rateLimit({
@@ -12,7 +13,7 @@ const loginLimit=rateLimit({
     max:4,
     message:{
         success:false,
-        message:"Maa chuda"
+        message:"Too many request,wait for a while"
     }
 })
 
@@ -21,9 +22,31 @@ const otpLimit=rateLimit({
     max:4,
     message:{
         success:false,
-        message:"Maa chuda"
+        message:"Too many request,wait for a while"
     }
 })
+
+const sendLimit=rateLimit({
+    windowMs:15*60*1000,
+    max:4,
+    message:{
+        success:false,
+        message:"Too many request,wait for a while"
+    }
+})
+
+const verifyLimit=rateLimit({
+    windowMs:15*60*1000,
+    max:4,
+    message:{
+        success:false,
+        message:"Too many request,wait for a while"
+    }
+})
+
+router.post('/forgot/send-otp',sendLimit,sendOtpReset)
+router.post('/forgot/verify-otp',verifyLimit,verifyOtp)
+router.post('/forgot/reset',resetPassword)
 
 router.post('/signUp',signUp)
 router.post('/send-otp',otpLimit,sendOtp)

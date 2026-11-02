@@ -2,31 +2,30 @@ import { useState, useEffect } from "react"
 import { useAuth } from "./AuthContext"
 
 export default function ExpiringSoon() {
-  const { accessToken } = useAuth()
-  const [inventory, setInventory] = useState([])
+    const { authFetch } = useAuth()
+    const [inventory, setInventory] = useState([])
 
-  useEffect(() => {
-    const fetchExpiryItems = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/api/inventory', {
-          credentials: 'include',
-          headers: { 'Authorization': `Bearer ${accessToken}` }
-        })
-        if (!response.ok) {
-          console.log('Fetch failed:', response.status)
-          return
+    useEffect(() => {
+        const fetchExpiryItems = async () => {
+            try {
+                const response = await authFetch('http://localhost:3000/api/inventory', {
+
+                })
+                if (!response.ok) {
+                    console.log('Fetch failed:', response.status)
+                    return
+                }
+                const data = await response.json()
+                if (data.success) {
+                    setInventory(data.data.filter((item) => item.daysRemaining <= 3))
+                }
+            } catch (error) {
+                console.log("Error aagya Bhai:", error)
+            }
         }
-        const data = await response.json()
-        if (data.success) {
-          setInventory(data.data.filter((item) => item.daysRemaining <= 3))
-        }
-      } catch (error) {
-        console.log("Error aagya Bhai:", error)
-      }
-    }
-    fetchExpiryItems()
-  }, [accessToken])
-  
+        fetchExpiryItems()
+    }, [])
+
     return (
         <div className="min-h-screen bg-slate-950 p-6 md:p-10 text-slate-100">
             <h1 className="text-2xl md:text-3xl font-extrabold text-rose-500 mb-6 border-b border-slate-800 pb-4">
