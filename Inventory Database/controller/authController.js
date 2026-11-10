@@ -20,7 +20,7 @@ const loginUser=async(req,res)=>{
     try{
         const{username,password}=req.body
         if(!username||!password){
-            return res.status(400).json({success:false,message:"username password kha hai"})
+            return res.status(400).json({success:false,message:"Enter Username and Password"})
         }
         const foundUser=await mainUser.findOne(
             {username:username})
@@ -29,18 +29,17 @@ const loginUser=async(req,res)=>{
             }
             const isMatch=await bcrypt.compare(password,foundUser.password)
         if(!isMatch){
-            return res.status(401).json({success:false,message:"password galat"})
+            return res.status(401).json({success:false,message:"Wrong Email or Password"})
         }
 
         const tokenData={userId: foundUser._id, role:foundUser.role,tenantId:foundUser.tenantId}
         const accessToken=jwt.sign(tokenData,process.env.JWT_ACCESS_SECRET,{expiresIn:'15m'})
         const refreshToken=await issueRefresh(tokenData)
-
         res.cookie('refreshToken',refreshToken,{
             ...cookieOpts,maxAge:7*24*60*60*1000
         })
 
-        res.json({success:true,message:"Done hai",accessToken})
+        res.json({success:true,message:"Done",accessToken})
     }catch(error){
         console.log("Yha crash hua",error.stack)
         res.status(500).json({success:false,error:error.message})

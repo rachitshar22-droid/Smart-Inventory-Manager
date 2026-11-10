@@ -98,27 +98,27 @@ export default function LoginForm() {
         }
     };
 
-    return (
-        <div className="h-screen w-full bg-[#050b1a] text-white font-sans relative overflow-hidden flex items-center justify-between px-6 py-4 select-none">
+   return (
+        <div className="min-h-screen lg:h-screen w-full bg-[#050b1a] text-white font-sans relative overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between px-4 sm:px-6 lg:px-8 xl:px-14 py-6 lg:py-4 gap-6 lg:gap-6 select-none">
 
             {/* Warehouse Background + Tailwind v4 Linear Gradient Overlay */}
             <div
-                className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity pointer-events-none"
+                className="fixed lg:absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity pointer-events-none"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop')" }}
             ></div>
-            <div className="absolute inset-0 bg-linear-to-r from-[#050b1a] via-[#071128]/90 to-[#0b1a3a]/80 pointer-events-none"></div>
+            <div className="fixed lg:absolute inset-0 bg-linear-to-r from-[#050b1a] via-[#071128]/90 to-[#0b1a3a]/80 pointer-events-none"></div>
 
             {/* Ambient Glows */}
-            <div className="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 blur-[130px] pointer-events-none"></div>
-            <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-500/15 blur-[130px] pointer-events-none"></div>
+            <div className="fixed lg:absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 blur-3xl pointer-events-none"></div>
+            <div className="fixed lg:absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-500/15 blur-3xl pointer-events-none"></div>
 
-            {/* LEFT SECTION (60% Width): Dead Inventory Analytics */}
-            <div className="relative z-10 w-7/12 h-full flex flex-col justify-between pr-4 py-1">
+            {/* LEFT SECTION: Logo (Mobile + Desktop) & Dead Inventory Analytics (Desktop Only) */}
+            <div className="relative z-10 w-full lg:flex-1 lg:h-full flex flex-col justify-between lg:pr-4 py-1">
 
-                {/* Top Logo & Title */}
-                <div className="flex items-center justify-between">
+                {/* Top Logo & Title — Centered on Phone, Left on Laptop */}
+                <div className="flex items-center justify-center lg:justify-between w-full">
                     <div className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 border border-white/20">
+                        <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 border border-white/20 shrink-0">
                             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                                 <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
@@ -126,7 +126,7 @@ export default function LoginForm() {
                             </svg>
                         </div>
                         <div>
-                            <div className="text-base font-extrabold tracking-tight leading-none text-white">
+                            <div className="text-base sm:text-lg font-extrabold tracking-tight leading-none text-white">
                                 Smart Inventory <span className="text-[#00b4ff]">Manager</span>
                             </div>
                             <p className="text-[10px] text-slate-400 mt-0.5">Dead Inventory Analysis & Sorting</p>
@@ -137,11 +137,11 @@ export default function LoginForm() {
                     </div>
                 </div>
 
-                {/* Main Content Grid: Hero Copy & Floating Cards */}
-                <div className="grid grid-cols-12 gap-4 items-center my-auto">
-                    <div className="col-span-7 space-y-3">
+                {/* Main Content Grid: HIDDEN ON PHONE (`hidden lg:grid`), Visible on Laptop */}
+                <div className="hidden lg:grid lg:grid-cols-12 gap-4 xl:gap-6 items-center my-auto">
+                    <div className="lg:col-span-7 space-y-3.5">
                         <div>
-                            <h1 className="text-2xl xl:text-3xl font-extrabold tracking-tight leading-tight text-white">
+                            <h1 className="text-xl lg:text-2xl xl:text-3xl font-extrabold tracking-tight leading-tight text-white">
                                 Identify <span className="text-[#00b4ff]">Dead Inventory</span><br />
                                 Before It Becomes a Bigger Loss.
                             </h1>
@@ -150,7 +150,7 @@ export default function LoginForm() {
                             </p>
                         </div>
 
-                        <div className="space-y-2 pt-1">
+                        <div className="space-y-2.5 pt-1">
                             <div className="flex items-start gap-2.5">
                                 <div className="w-7 h-7 rounded-lg bg-blue-950/90 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5">
                                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6" /></svg>
@@ -190,7 +190,7 @@ export default function LoginForm() {
                         </div>
                     </div>
 
-                    <div className="col-span-5 space-y-2.5">
+                    <div className="lg:col-span-5 space-y-2.5">
                         <div className="bg-[#0b1b3d]/90 backdrop-blur-xl border border-cyan-500/40 rounded-xl p-3 shadow-lg">
                             <div className="flex justify-between items-center mb-1.5">
                                 <span className="text-[11px] font-bold text-white">Inventory Status</span>
@@ -238,22 +238,24 @@ export default function LoginForm() {
                     </div>
                 </div>
 
-                <div className="text-[10px] text-slate-500 flex items-center gap-4 font-medium">
+                {/* Bottom Status: HIDDEN ON PHONE (`hidden lg:flex`) */}
+                <div className="hidden lg:flex text-[10px] text-slate-400 items-center gap-4 font-medium">
                     <span>● Real-time Cron Jobs Active</span>
                     <span>● Automated Expiry Alerts</span>
                 </div>
             </div>
 
-            {/* RIGHT SECTION: Dynamic Auth Card OR Forgot Password */}
+            {/* RIGHT SECTION: Fixed Sleek Width (`max-w-sm sm:w-96 shrink-0`) for Tailwind v4 */}
             {isForgotView ? (
-                <div className="relative z-20 w-5/12 max-w-sm">
+                <div className="relative z-20 w-full sm:w-96 max-w-sm shrink-0 mx-auto lg:mx-0">
                     <ForgotPassword onBack={() => setIsForgotView(false)} />
                 </div>
             ) : (
-                <div className="relative z-20 w-5/12 max-w-sm bg-white text-slate-900 rounded-2xl p-4 shadow-2xl border border-slate-100 flex flex-col justify-between max-h-[92vh] overflow-hidden">
+                <div className="relative z-20 w-full sm:w-96 max-w-sm shrink-0 mx-auto lg:mx-0 bg-white text-slate-900 rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-100 flex flex-col justify-between">
 
                     <div>
-                        <div className="flex flex-col items-center text-center mb-2.5">
+                        {/* Card Internal Logo — Hidden on Mobile to avoid double logo, Visible on Desktop */}
+                        <div className="hidden lg:flex flex-col items-center text-center mb-2.5">
                             <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md mb-1">
                                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -266,12 +268,12 @@ export default function LoginForm() {
                         {isLoginView ? (
                             /* ================= LOGIN VIEW ================= */
                             <>
-                                <div className="text-center mb-3.5 border-t border-slate-100 pt-2">
-                                    <h2 className="text-base font-extrabold text-slate-900">Welcome Back!</h2>
+                                <div className="text-center mb-4 lg:border-t lg:border-slate-100 lg:pt-2.5">
+                                    <h2 className="text-base sm:text-lg font-extrabold text-slate-900">Welcome Back!</h2>
                                     <p className="text-[11px] text-slate-500 font-medium mt-0.5">Sign in to access your inventory dashboard</p>
                                 </div>
 
-                                <form onSubmit={handleLogin} className="space-y-3">
+                                <form onSubmit={handleLogin} className="space-y-3.5">
                                     <div>
                                         <label className="block text-[11px] font-bold text-slate-700 mb-1">Username</label>
                                         <input
@@ -279,7 +281,7 @@ export default function LoginForm() {
                                             placeholder="Enter your username"
                                             value={username}
                                             onChange={(e) => setUsername(e.target.value)}
-                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                                            className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
                                         />
                                     </div>
                                     <div>
@@ -290,7 +292,7 @@ export default function LoginForm() {
                                                 placeholder="Enter your password"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
-                                                className="w-full px-3 py-2 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                                                className="w-full px-3 py-2.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
                                             />
                                             <button
                                                 type="button"
@@ -298,10 +300,8 @@ export default function LoginForm() {
                                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
                                             >
                                                 {showPassword ? (
-                                                    /* Khuli hui Aankh */
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                                 ) : (
-                                                    /* Band Aankh */
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
                                                 )}
                                             </button>
@@ -310,12 +310,11 @@ export default function LoginForm() {
 
                                     <div className="flex items-center justify-between text-[11px] pt-0.5">
                                         <label className="flex items-center gap-1.5 font-semibold text-slate-700 cursor-pointer">
-                                            <input type="checkbox" defaultChecked className="w-3 h-3 rounded text-blue-600" />
+                                            <input type="checkbox" defaultChecked className="w-3.5 h-3.5 rounded text-blue-600" />
                                             Remember me
                                         </label>
-                                        {/* 3. Forgot Password Click Trigger */}
-                                        <span 
-                                            onClick={() => setIsForgotView(true)} 
+                                        <span
+                                            onClick={() => setIsForgotView(true)}
                                             className="text-blue-600 font-bold hover:underline cursor-pointer"
                                         >
                                             Forgot password?
@@ -327,7 +326,7 @@ export default function LoginForm() {
                                     </button>
                                 </form>
 
-                                <div className="mt-3 text-center">
+                                <div className="mt-4 text-center">
                                     <p className="text-[11px] text-slate-600 font-medium">
                                         Don't have an account?{" "}
                                         <span onClick={() => setIsLoginView(false)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
@@ -339,12 +338,12 @@ export default function LoginForm() {
                         ) : (
                             /* ================= SIGNUP VIEW ================= */
                             <>
-                                <div className="text-center mb-2.5 border-t border-slate-100 pt-2">
+                                <div className="text-center mb-2.5 lg:border-t lg:border-slate-100 lg:pt-2">
                                     <h2 className="text-base font-extrabold text-slate-900">Create Account</h2>
                                     <p className="text-[10px] text-slate-500 font-medium">Join to manage your inventory smarter</p>
                                 </div>
 
-                                <form onSubmit={handleSignup} className="space-y-1">
+                                <form onSubmit={handleSignup} className="space-y-2">
                                     <div>
                                         <label className="block text-[10px] font-bold text-slate-700 mb-0.5">Full Name</label>
                                         <input
@@ -377,10 +376,8 @@ export default function LoginForm() {
                                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
                                             >
                                                 {showPassword ? (
-                                                    /* Khuli hui Aankh (Show Password) */
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                                                 ) : (
-                                                    /* Band Aankh (Hide Password) */
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
                                                 )}
                                             </button>
@@ -435,7 +432,7 @@ export default function LoginForm() {
                         )}
                     </div>
 
-                    <div className="border-t border-slate-100 pt-2 mt-2 text-center">
+                    <div className="border-t border-slate-100 pt-2.5 mt-3 text-center">
                         <p className="text-[10px] font-bold text-slate-500">Smart Inventory Manager</p>
                         <p className="text-[9px] text-slate-400">Dead Inventory Analysis & Sorting</p>
                     </div>

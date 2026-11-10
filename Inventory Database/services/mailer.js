@@ -12,8 +12,8 @@ async function sendExpiryAlert(items) {
   await transporter.sendMail({
     from: `"Smart Inventory" <${process.env.EMAIL_USER}>`,
     to: process.env.ALERT_TO,
-    subject: `⚠️ ${items.length} saman jaldi expire ho raha hai`,
-    text:` Lala Ji, ye saman 3 din mein expire hone wala hai:\n\n${list}\n\nJaldi stock clear kar!`,
+    subject: `⚠️ ${items.length} product expiring soon`,
+    text:` Admin, This product is expire in 3 days:\n\n${list}\n\nPlease clear stock in discount!`,
   });
 }
 
