@@ -75,4 +75,4 @@ Do NOT wrap the output in markdown, do NOT add any conversational text.`;
   }
 };
 
-module.exports = { scanProductImage };
+module.exports = { scanProductImage,generateWithRetry};
