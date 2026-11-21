@@ -108,48 +108,33 @@ export default function AddInventory() {
     setExpiryDate("")
   }
 
-  return (
-    <div className="min-h-screen bg-[#050b1a] p-4 sm:p-6 md:p-10 flex items-center justify-center relative overflow-hidden font-sans">
-      
-      {/* Silicon Valley Ambient Background Glows */}
-      <div className="fixed -top-32 -left-32 w-96 h-96 bg-blue-600/15 blur-[140px] pointer-events-none"></div>
-      <div className="fixed bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 blur-[140px] pointer-events-none"></div>
-
-      <div className="relative z-10 w-full max-w-lg bg-[#0b1736]/80 backdrop-blur-2xl p-6 sm:p-8 shadow-2xl rounded-3xl border border-blue-900/60 flex flex-col gap-5 text-slate-100">
+ return (
+    <div className="min-h-screen bg-[#0A0F1E] p-3 sm:p-4 flex items-center justify-center">
+      <div className="w-full max-w-xl bg-[#121A2E] border border-slate-800 p-4 sm:p-5 rounded-2xl text-white">
         
-        {/* Header Section */}
-        <div className="text-center border-b border-blue-900/50 pb-4">
-          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-blue-950/80 border border-cyan-500/30 mb-2 shadow-sm">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cyan-300 font-semibold">
-              Telemetry Input Node
-            </span>
-          </div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight">
-            {editData ? "Update Stock Batch" : "Initialize New Stock"}
+        {/* Header - Chhota kar diya */}
+        <div className="text-center border-b border-slate-800 pb-3 mb-3">
+          <p className="text-[11px] font-bold tracking-widest text-amber-400">DUKAAN • STOCK</p>
+          <h1 className="text-[22px] font-extrabold tracking-tight leading-tight mt-0.5">
+            {editData ? "Stock Update Karo" : "Naya Maal Daalo"}
           </h1>
-          <p className="text-xs font-mono text-slate-400 mt-1">ENTER BATCH METADATA & EXPIRATION TIMELINE</p>
         </div>
 
-        {/* AI Scanner Button */}
-        <div className="flex flex-col gap-1.5">
-          <label className={`flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-2xl font-mono font-bold text-xs uppercase tracking-wider cursor-pointer transition-all border ${
-            isScanning 
-              ? 'bg-blue-950/50 text-slate-400 border-blue-800/40' 
-              : 'bg-linear-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white shadow-lg shadow-blue-600/25 border-cyan-400/30'
-          }`}>
-            <span>{isScanning ? "🤖 AI OCR Engine Analyzing..." : "📸 Auto-Fill via AI Bill Scan"}</span>
-            <input type="file" accept="image/*" className="hidden" onChange={handleImageScan} disabled={isScanning} />
-          </label>
-        </div>
+        {/* Scanner - Chhota */}
+        <label className={`flex items-center justify-center gap-2 w-full px-3 py-2.5 rounded-xl font-bold text-[13px] cursor-pointer border mb-3 ${
+          isScanning ? 'bg-slate-800 text-slate-400 border-slate-700' : 'bg-white text-black hover:bg-slate-100'
+        }`}>
+          <span>{isScanning ? "Bill padh raha hu..." : "📸 Bill ki Photo se Bharo"}</span>
+          <input type="file" accept="image/*" className="hidden" onChange={handleImageScan} disabled={isScanning} />
+        </label>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           
-          {/* Product Name */}
-          <div className="space-y-1">
-            <label className="block text-[11px] font-mono uppercase tracking-wider text-slate-300 font-bold pl-1">Product Name</label>
+          {/* Naam - Full */}
+          <div>
+            <label className="block text-[12px] font-semibold text-slate-200 mb-1">Dawa / Maal ka Naam</label>
             <input
-              className="w-full px-4 py-3 rounded-xl bg-[#050b1a]/90 border border-blue-900/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-xs font-mono transition-all"
+              className="w-full px-3 py-2.5 rounded-lg bg-[#0A0F1E] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-[14px]"
               type="text"
               placeholder="e.g. Paracetamol 500mg"
               value={productName}
@@ -157,64 +142,61 @@ export default function AddInventory() {
             />
           </div>
 
-          {/* Batch Number */}
-          <div className="space-y-1">
-            <label className="block text-[11px] font-mono uppercase tracking-wider text-slate-300 font-bold pl-1">Batch Identifier</label>
-            <input
-              className="w-full px-4 py-3 rounded-xl bg-[#050b1a]/90 border border-blue-900/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-xs font-mono transition-all"
-              type="text"
-              placeholder="e.g. BATCH-9942"
-              value={batchNo}
-              onChange={(e) => setBatchNo(e.target.value)}
-            />
+          {/* 2-2 Ek Line Me */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-[12px] font-semibold text-slate-200 mb-1">Batch Number</label>
+              <input
+                className="w-full px-3 py-2.5 rounded-lg bg-[#0A0F1E] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-[14px]"
+                type="text"
+                placeholder="e.g. A-102"
+                value={batchNo}
+                onChange={(e) => setBatchNo(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-[12px] font-semibold text-slate-200 mb-1">Category</label>
+              <select
+                className="w-full px-3 py-2.5 rounded-lg bg-[#0A0F1E] border border-slate-700 text-white focus:outline-none focus:border-amber-400 text-[14px]"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
+                <option value="" className="bg-[#0A0F1E]">Select</option>
+                <option value="Medicine" className="bg-[#0A0F1E]">Medicine</option>
+                <option value="Grocery" className="bg-[#0A0F1E]">Grocery</option>
+                <option value="Cosmatics" className="bg-[#0A0F1E]">Cosmatics</option>
+              </select>
+            </div>
           </div>
 
-          {/* Category Dropdown */}
-          <div className="space-y-1">
-            <label className="block text-[11px] font-mono uppercase tracking-wider text-slate-300 font-bold pl-1">Inventory Class</label>
-            <select
-              className="w-full px-4 py-3 rounded-xl bg-[#050b1a]/90 border border-blue-900/80 text-slate-100 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-xs font-mono transition-all"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="" className="bg-[#050b1a]">Select Category</option>
-              <option value="Medicine" className="bg-[#050b1a]">Medicine</option>
-              <option value="Grocery" className="bg-[#050b1a]">Grocery</option>
-              <option value="Cosmatics" className="bg-[#050b1a]">Cosmatics</option>
-            </select>
+          {/* Quantity + Expiry Ek Line Me */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-[12px] font-semibold text-slate-200 mb-1">Kitne Piece?</label>
+              <input
+                className="w-full px-3 py-2.5 rounded-lg bg-[#0A0F1E] border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 text-[14px]"
+                type="text"
+                placeholder="e.g. 500"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-[12px] font-semibold text-slate-200 mb-1">Kab Expire Hoga?</label>
+              <input
+                className="w-full px-3 py-2.5 rounded-lg bg-[#0A0F1E] border border-slate-700 text-white focus:outline-none focus:border-amber-400 text-[14px] scheme-dark"
+                type="date"
+                value={expiryDate ? expiryDate.split('T')[0] : ''}
+                onChange={(e) => setExpiryDate(e.target.value)}
+              />
+            </div>
           </div>
 
-          {/* Stock Quantity */}
-          <div className="space-y-1">
-            <label className="block text-[11px] font-mono uppercase tracking-wider text-slate-300 font-bold pl-1">Unit Volume</label>
-            <input
-              className="w-full px-4 py-3 rounded-xl bg-[#050b1a]/90 border border-blue-900/80 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-xs font-mono transition-all"
-              type="text"
-              placeholder="e.g. 500"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-            />
-          </div>
-
-          {/* Expiry Date */}
-          <div className="space-y-1">
-            <label className="block text-[11px] font-mono uppercase tracking-wider text-slate-300 font-bold pl-1">
-              Shelf-Life Expiry Date
-            </label>
-            <input
-              className="w-full px-4 py-3 rounded-xl bg-[#050b1a]/90 border border-blue-900/80 text-slate-100 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 text-xs font-mono transition-all"
-              type="date"
-              value={expiryDate ? expiryDate.split('T')[0] : ''}
-              onChange={(e) => setExpiryDate(e.target.value)}
-            />
-          </div>
-
-          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-linear-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-mono font-bold uppercase tracking-wider py-3.5 rounded-xl shadow-lg shadow-blue-600/25 transition-all cursor-pointer text-xs border border-cyan-400/30 mt-2"
+            className="w-full bg-amber-400 hover:bg-amber-300 text-black font-bold py-3 rounded-xl text-[14px] mt-1 cursor-pointer"
           >
-            {editData ? "⚡ Update Batch Protocol" : "⚡ Initialize Batch Record"}
+            {editData ? "Update Karo" : "+ Stock Me Daalo"}
           </button>
         </form>
 

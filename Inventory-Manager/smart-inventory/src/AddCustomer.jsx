@@ -42,34 +42,27 @@ export default function AddCustomer(){
     setSaving(false)
   }
 }
-    return (
-  <div className="flex min-h-screen items-center justify-center bg-[#060b19] p-4 text-slate-100 md:p-10">
-    {/* Main Telemetry Card */}
-    <div className="w-full max-w-lg rounded-2xl border border-cyan-500/20 bg-[#0a1124]/90 p-6 shadow-[0_0_50px_-12px_rgba(6,182,212,0.15)] backdrop-blur-md sm:p-8">
+   return (
+  <div className="flex min-h-screen items-center justify-center bg-[#0A0F1E] p-3 text-white">
+    <div className="w-full max-w-md rounded-xl border border-slate-800 bg-[#121A2E] p-4 sm:p-5">
       
-      {/* Header Section (Exact match to "Initialize New Stock") */}
-      <div className="mb-8 text-center">
-        <div className="mb-2 flex items-center justify-center gap-2">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></span>
-          <span className=" font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-400">
-            Money Recover Mode
-          </span>
-        </div>
-        <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-         {editData? 'Update Udhar Entry':'Initialize Udhar Entry'}
+      {/* Header - Chhota */}
+      <div className="mb-4 text-center">
+        <p className="text-[10px] font-bold tracking-widest text-amber-400">DUKAAN • UDHAR KHATA</p>
+        <h1 className="text-[19px] font-extrabold tracking-tight leading-tight mt-1">
+          {editData ? 'Udhar Update Karo' : 'Naya Udhar Likho'}
         </h1>
-        <p className="mt-1.5 font-mono text-[11px] uppercase tracking-widest text-slate-400">
-          Enter Customer Metadata & Automated Recovery Trigger
+        <p className="mt-0.5 text-[11px] text-slate-400">
+          {editData ? 'Customer ka paisa ya detail badal raha hai.' : 'Naam, paisa aur number daalo, khata ban jayega.'}
         </p>
       </div>
 
-      {/* Form Section */}
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit} className="space-y-2.5">
         
         {/* Customer Name */}
         <div>
-          <label className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-200">
-            Customer Name
+          <label className="mb-1 block text-[11px] font-semibold text-slate-200">
+            Customer ka Naam
           </label>
           <input
             name="name"
@@ -78,16 +71,15 @@ export default function AddCustomer(){
             value={form.name}
             onChange={handleChange}
             required
-            className="w-full rounded-xl border border-slate-800 bg-[#060a17] px-4 py-3.5 font-mono text-sm text-cyan-50 placeholder-slate-600 transition-all focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
+            className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
           />
         </div>
 
-        {/* 2-Column Grid on Desktop, Stacked on Mobile */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          {/* Total Udhaar Amount */}
+        <div className="grid grid-cols-2 gap-2.5">
+          {/* Amount */}
           <div>
-            <label className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-200">
-              Total Udhar (₹)
+            <label className="mb-1 block text-[11px] font-semibold text-slate-200">
+              Kitna Udhar Diya? (₹)
             </label>
             <input
               name="totalAmount"
@@ -96,13 +88,13 @@ export default function AddCustomer(){
               value={form.totalAmount}
               onChange={handleChange}
               required
-              className="w-full rounded-xl border border-slate-800 bg-[#060a17] px-4 py-3.5 font-mono text-sm text-cyan-50 placeholder-slate-600 transition-all focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
+              className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
             />
           </div>
 
-          {/* WhatsApp Phone Number */}
+          {/* Phone */}
           <div>
-            <label className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-200">
+            <label className="mb-1 block text-[11px] font-semibold text-slate-200">
               WhatsApp Number
             </label>
             <input
@@ -113,48 +105,49 @@ export default function AddCustomer(){
               onChange={handleChange}
               maxLength={10}
               required
-              className="w-full rounded-xl border border-slate-800 bg-[#060a17] px-4 py-3.5 font-mono text-sm text-cyan-50 placeholder-slate-600 transition-all focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
+              className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
             />
           </div>
         </div>
 
         {/* Address */}
         <div>
-          <label className="mb-2 block text-[11px] font-bold uppercase tracking-wider text-slate-200">
-            Location / Address
+          <label className="mb-1 block text-[11px] font-semibold text-slate-200">
+            Kaha Rehta Hai? / Mohalla
           </label>
           <input
             name="address"
             type="text"
-            placeholder="e.g. Shop No. 4, Main Market"
+            placeholder="e.g. Main Market, Firozabad"
             value={form.address}
             onChange={handleChange}
             required
-            className="w-full rounded-xl border border-slate-800 bg-[#060a17] px-4 py-3.5 font-mono text-sm text-cyan-50 placeholder-slate-600 transition-all focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400/50"
+            className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
           />
         </div>
 
-        {/* Error / Status Message */}
         {msg && (
-          <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-center font-mono text-xs text-red-400">
-            ● {msg}
+          <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-center text-[11px] font-medium text-red-300">
+            {msg}
           </div>
         )}
 
-        {/* Glowing Cyan Submit Button */}
         <button
           type="submit"
           disabled={saving}
-          className="mt-2 w-full rounded-xl bg-linear-to-r from-cyan-400 to-sky-500 px-6 py-4 font-mono text-xs font-bold uppercase tracking-[0.15em] text-slate-950 shadow-[0_0_25px_rgba(6,182,212,0.4)] transition-all hover:from-cyan-300 hover:to-sky-400 hover:shadow-[0_0_35px_rgba(6,182,212,0.65)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-lg bg-amber-400 hover:bg-amber-300 px-4 py-2.5 text-[13px] font-bold text-black transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
-         {editData
-         ?(saving ? '⚡ Syncing With Ledger...' : 'Update Entry')
-         :(saving ? '⚡ Syncing With Ledger...' : '+ Add Entry')}
+          {editData
+            ? (saving ? 'Save ho raha hai...' : 'Update Karo')
+            : (saving ? 'Save ho raha hai...' : '+ Udhar Khate Me Likho')}
         </button>
+
+        <p className="text-center text-[10px] text-slate-500 pt-0.5">
+          Save karte hi ye Udhar Khate me dikhne lagega.
+        </p>
 
       </form>
     </div>
   </div>
 )
-
 }

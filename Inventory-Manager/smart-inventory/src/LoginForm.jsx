@@ -98,8 +98,8 @@ export default function LoginForm() {
         }
     };
 
-   return (
-        <div className="min-h-screen lg:h-screen w-full bg-[#050b1a] text-white font-sans relative overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between px-4 sm:px-6 lg:px-8 xl:px-14 py-6 lg:py-4 gap-6 lg:gap-6 select-none">
+  return (
+        <div className="min-h-screen lg:h-screen w-full bg-[#050b1a] text-white font-sans relative overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row items-center justify-start lg:justify-between px-3 sm:px-6 lg:px-8 xl:px-14 pt-8 pb-6 lg:py-4 gap-5 lg:gap-6 select-none">
 
             {/* Warehouse Background + Tailwind v4 Linear Gradient Overlay */}
             <div
@@ -112,12 +112,29 @@ export default function LoginForm() {
             <div className="fixed lg:absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 blur-3xl pointer-events-none"></div>
             <div className="fixed lg:absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-500/15 blur-3xl pointer-events-none"></div>
 
-            {/* LEFT SECTION: Logo (Mobile + Desktop) & Dead Inventory Analytics (Desktop Only) */}
-            <div className="relative z-10 w-full lg:flex-1 lg:h-full flex flex-col justify-between lg:pr-4 py-1">
+            {/* LEFT SECTION */}
+            <div className="relative z-10 w-full lg:flex-1 lg:h-full flex flex-col justify-center lg:justify-between lg:pr-4 py-1">
 
-                {/* Top Logo & Title — Centered on Phone, Left on Laptop */}
-                <div className="flex items-center justify-center lg:justify-between w-full">
-                    <div className="flex items-center gap-2.5">
+                {/* ===== MOBILE ONLY - BADA CENTER LOGO ===== */}
+                <div className="flex lg:hidden flex-col items-center text-center">
+                    <div className="w-14 h-14 rounded-2xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-xl shadow-blue-500/40 border border-white/20 shrink-0">
+                        <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                            <line x1="12" y1="22.08" x2="12" y2="12" />
+                        </svg>
+                    </div>
+                    <div className="mt-3">
+                        <div className="text-[22px] font-extrabold tracking-tight leading-none text-white">
+                            Smart Inventory <span className="text-[#00b4ff]">Manager</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1.5">Dukaan ka Stock + Udhar</p>
+                    </div>
+                </div>
+
+                {/* ===== DESKTOP ONLY - LEFT LOGO ===== */}
+                <div className="hidden lg:flex items-center justify-between w-full">
+                    <div className="flex items-center gap-2">
                         <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 border border-white/20 shrink-0">
                             <svg className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -126,27 +143,25 @@ export default function LoginForm() {
                             </svg>
                         </div>
                         <div>
-                            <div className="text-base sm:text-lg font-extrabold tracking-tight leading-none text-white">
+                            <div className="text-lg font-extrabold tracking-tight leading-none text-white">
                                 Smart Inventory <span className="text-[#00b4ff]">Manager</span>
                             </div>
-                            <p className="text-[10px] text-slate-400 mt-0.5">Dead Inventory Analysis & Sorting</p>
+                            <p className="text-[10px] text-slate-400 mt-0.5">Dukaan ka Stock + Udhar</p>
                         </div>
                     </div>
-                    <div className="hidden xl:block border-l-2 border-cyan-400 pl-3 text-xs text-slate-300 font-medium">
-                        Turn Unused Stock into Better Decisions.
-                    </div>
+                    
                 </div>
 
-                {/* Main Content Grid: HIDDEN ON PHONE (`hidden lg:grid`), Visible on Laptop */}
+                {/* Main Content - Desktop Only */}
                 <div className="hidden lg:grid lg:grid-cols-12 gap-4 xl:gap-6 items-center my-auto">
                     <div className="lg:col-span-7 space-y-3.5">
                         <div>
                             <h1 className="text-xl lg:text-2xl xl:text-3xl font-extrabold tracking-tight leading-tight text-white">
-                                Identify <span className="text-[#00b4ff]">Dead Inventory</span><br />
-                                Before It Becomes a Bigger Loss.
+                                Maal Kharab Hone Se<br />
+                                <span className="text-[#00b4ff]">Pehle Pata Chalega.</span>
                             </h1>
                             <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
-                                Analyze, track and automatically sort dead, slow-moving and inactive inventory with smart insights.
+                                Kaunsa maal expire hone wala hai, kaunsa slow bik raha hai, aur kisne kitna udhar liya hai - sab ek jagah.
                             </p>
                         </div>
 
@@ -156,8 +171,8 @@ export default function LoginForm() {
                                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6" /></svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-xs font-bold text-white leading-tight">Dead Stock Detection</h4>
-                                    <p className="text-[10px] text-slate-400 leading-tight">Find slow-moving items instantly.</p>
+                                    <h4 className="text-xs font-bold text-white leading-tight">Expire Se Pehle Alert</h4>
+                                    <p className="text-[10px] text-slate-400 leading-tight">Maal kharab hone se pehle bech do.</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-2.5">
@@ -165,8 +180,8 @@ export default function LoginForm() {
                                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 12 12 17 22 12" /><polyline points="2 17 12 22 22 17" /></svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-xs font-bold text-white leading-tight">Smart Sorting</h4>
-                                    <p className="text-[10px] text-slate-400 leading-tight">Auto-categorize by movement & age.</p>
+                                    <h4 className="text-xs font-bold text-white leading-tight">Udhar Ka Hisaab</h4>
+                                    <p className="text-[10px] text-slate-400 leading-tight">Kisne kitna liya, kab dega - sab likha rahega.</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-2.5">
@@ -174,8 +189,8 @@ export default function LoginForm() {
                                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83" /><path d="M22 12A10 10 0 0 0 12 2v10z" /></svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-xs font-bold text-white leading-tight">Actionable Insights</h4>
-                                    <p className="text-[10px] text-slate-400 leading-tight">Clear reports to reduce holding costs.</p>
+                                    <h4 className="text-xs font-bold text-white leading-tight">Aasan Hisaab</h4>
+                                    <p className="text-[10px] text-slate-400 leading-tight">Bina copy-kitaab ke, phone se hi sab pata chalega.</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-2.5">
@@ -183,8 +198,8 @@ export default function LoginForm() {
                                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
                                 </div>
                                 <div>
-                                    <h4 className="text-xs font-bold text-white leading-tight">Efficient Management</h4>
-                                    <p className="text-[10px] text-slate-400 leading-tight">Keep inventory lean & profitable.</p>
+                                    <h4 className="text-xs font-bold text-white leading-tight">Stock Smart Rakho</h4>
+                                    <p className="text-[10px] text-slate-400 leading-tight">Dukaan ka maal lean aur profit zyada.</p>
                                 </div>
                             </div>
                         </div>
@@ -193,8 +208,8 @@ export default function LoginForm() {
                     <div className="lg:col-span-5 space-y-2.5">
                         <div className="bg-[#0b1b3d]/90 backdrop-blur-xl border border-cyan-500/40 rounded-xl p-3 shadow-lg">
                             <div className="flex justify-between items-center mb-1.5">
-                                <span className="text-[11px] font-bold text-white">Inventory Status</span>
-                                <span className="text-[9px] text-cyan-400 font-semibold">Live Feed</span>
+                                <span className="text-[11px] font-bold text-white">Dukaan ka Stock</span>
+                                <span className="text-[9px] text-cyan-400 font-semibold">Live</span>
                             </div>
                             <div className="flex items-center justify-between gap-2">
                                 <svg className="w-12 h-12 shrink-0 -rotate-90" viewBox="0 0 36 36">
@@ -205,15 +220,15 @@ export default function LoginForm() {
                                 </svg>
                                 <div className="text-[10px] space-y-0.5 flex-1">
                                     <div className="text-slate-400">Total: <span className="font-extrabold text-white">12,840</span></div>
-                                    <div className="flex justify-between text-emerald-400"><span>● Active</span><span>8,642</span></div>
+                                    <div className="flex justify-between text-emerald-400"><span>● Chal Raha</span><span>8,642</span></div>
                                     <div className="flex justify-between text-amber-400"><span>● Slow</span><span>2,498</span></div>
-                                    <div className="flex justify-between text-rose-500 font-bold"><span>● Dead</span><span>1,700</span></div>
+                                    <div className="flex justify-between text-rose-500 font-bold"><span>● Expire Wala</span><span>1,700</span></div>
                                 </div>
                             </div>
                         </div>
                         <div className="bg-[#0b1b3d]/90 backdrop-blur-xl border border-rose-500/40 rounded-xl p-3 shadow-lg">
                             <div className="flex justify-between items-center mb-1.5">
-                                <span className="text-[11px] font-bold text-white">Dead Inventory Trend</span>
+                                <span className="text-[11px] font-bold text-white">Expire Wala Maal</span>
                                 <span className="text-[10px] font-bold text-rose-400 bg-rose-500/10 px-1.5 py-0.5 rounded">↑ 18.4%</span>
                             </div>
                             <div className="flex items-end justify-between h-9 gap-1 px-1">
@@ -229,51 +244,50 @@ export default function LoginForm() {
                             <div className="flex items-center gap-2">
                                 <div className="w-7 h-7 rounded-lg bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-400 font-extrabold text-xs">!</div>
                                 <div>
-                                    <p className="text-[10px] text-rose-200 leading-none">Dead Stock Items</p>
+                                    <p className="text-[10px] text-rose-200 leading-none">Expire Hone Wala Maal</p>
                                     <p className="text-sm font-extrabold text-white leading-tight mt-0.5">1,700</p>
                                 </div>
                             </div>
-                            <span className="px-2 py-0.5 rounded bg-rose-600 text-white text-[9px] font-extrabold tracking-wider">DEAD STOCK</span>
+                            <span className="px-2 py-0.5 rounded bg-rose-600 text-white text-[9px] font-extrabold tracking-wider">EXPIRE WALA</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Bottom Status: HIDDEN ON PHONE (`hidden lg:flex`) */}
+                {/* Bottom Status */}
                 <div className="hidden lg:flex text-[10px] text-slate-400 items-center gap-4 font-medium">
-                    <span>● Real-time Cron Jobs Active</span>
-                    <span>● Automated Expiry Alerts</span>
+                    <span>● Stock Alert On Hai</span>
+                    <span>● Expire Se Pehle Yaad Dilayega</span>
                 </div>
             </div>
 
-            {/* RIGHT SECTION: Fixed Sleek Width (`max-w-sm sm:w-96 shrink-0`) for Tailwind v4 */}
+            {/* RIGHT SECTION: PATLA KAR DIYA - 340px */}
             {isForgotView ? (
-                <div className="relative z-20 w-full sm:w-96 max-w-sm shrink-0 mx-auto lg:mx-0">
+                <div className="relative z-20 w-full max-w-85 sm:w-85 shrink-0 mx-auto lg:mx-0">
                     <ForgotPassword onBack={() => setIsForgotView(false)} />
                 </div>
             ) : (
-                <div className="relative z-20 w-full sm:w-96 max-w-sm shrink-0 mx-auto lg:mx-0 bg-white text-slate-900 rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-100 flex flex-col justify-between">
+                <div className="relative z-20 w-full max-w-85 sm:w-85 shrink-0 mx-auto lg:mx-0 bg-white text-slate-900 rounded-2xl p-4 sm:p-5 shadow-2xl border border-slate-100 flex flex-col justify-between">
 
                     <div>
-                        {/* Card Internal Logo — Hidden on Mobile to avoid double logo, Visible on Desktop */}
-                        <div className="hidden lg:flex flex-col items-center text-center mb-2.5">
-                            <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md mb-1">
+                        {/* Card Internal Logo - Laptop pe hi dikhega, mobile pe upar wala bada logo hai */}
+                        <div className="hidden lg:flex flex-col items-center text-center mb-2">
+                            <div className="w-8 h-8 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md mb-1">
                                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                                 </svg>
                             </div>
-                            <h3 className="text-sm font-extrabold text-slate-900 leading-tight">Smart Inventory</h3>
+                            <h3 className="text-[13px] font-extrabold text-slate-900 leading-tight">Smart Inventory</h3>
                             <span className="text-[11px] font-extrabold text-blue-600 leading-tight">Manager</span>
                         </div>
 
                         {isLoginView ? (
-                            /* ================= LOGIN VIEW ================= */
                             <>
-                                <div className="text-center mb-4 lg:border-t lg:border-slate-100 lg:pt-2.5">
-                                    <h2 className="text-base sm:text-lg font-extrabold text-slate-900">Welcome Back!</h2>
+                                <div className="text-center mb-3.5 lg:border-t lg:border-slate-100 lg:pt-2">
+                                    <h2 className="text-[17px] sm:text-lg font-extrabold text-slate-900">Welcome Back!</h2>
                                     <p className="text-[11px] text-slate-500 font-medium mt-0.5">Sign in to access your inventory dashboard</p>
                                 </div>
 
-                                <form onSubmit={handleLogin} className="space-y-3.5">
+                                <form onSubmit={handleLogin} className="space-y-3">
                                     <div>
                                         <label className="block text-[11px] font-bold text-slate-700 mb-1">Username</label>
                                         <input
@@ -281,7 +295,7 @@ export default function LoginForm() {
                                             placeholder="Enter your username"
                                             value={username}
                                             onChange={(e) => setUsername(e.target.value)}
-                                            className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                                            className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
                                         />
                                     </div>
                                     <div>
@@ -292,7 +306,7 @@ export default function LoginForm() {
                                                 placeholder="Enter your password"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
-                                                className="w-full px-3 py-2.5 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                                                className="w-full px-3 py-2 pr-10 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 font-medium focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
                                             />
                                             <button
                                                 type="button"
@@ -326,7 +340,7 @@ export default function LoginForm() {
                                     </button>
                                 </form>
 
-                                <div className="mt-4 text-center">
+                                <div className="mt-3.5 text-center">
                                     <p className="text-[11px] text-slate-600 font-medium">
                                         Don't have an account?{" "}
                                         <span onClick={() => setIsLoginView(false)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
@@ -336,10 +350,9 @@ export default function LoginForm() {
                                 </div>
                             </>
                         ) : (
-                            /* ================= SIGNUP VIEW ================= */
                             <>
                                 <div className="text-center mb-2.5 lg:border-t lg:border-slate-100 lg:pt-2">
-                                    <h2 className="text-base font-extrabold text-slate-900">Create Account</h2>
+                                    <h2 className="text-[16px] font-extrabold text-slate-900">Create Account</h2>
                                     <p className="text-[10px] text-slate-500 font-medium">Join to manage your inventory smarter</p>
                                 </div>
 
@@ -434,7 +447,7 @@ export default function LoginForm() {
 
                     <div className="border-t border-slate-100 pt-2.5 mt-3 text-center">
                         <p className="text-[10px] font-bold text-slate-500">Smart Inventory Manager</p>
-                        <p className="text-[9px] text-slate-400">Dead Inventory Analysis & Sorting</p>
+                        <p className="text-[9px] text-slate-400">Dukaan ka Stock + Udhar</p>
                     </div>
                 </div>
             )}
