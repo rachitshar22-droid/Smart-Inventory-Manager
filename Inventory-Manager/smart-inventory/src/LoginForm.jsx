@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
-import ForgotPassword from "./ForgotPassword"; // <-- 1. Import add kiya
+import ForgotPassword from "./ForgotPassword";
 import { API_URL } from "./config";
 
 export default function LoginForm() {
-    // --- View Toggle State ---
     const [isLoginView, setIsLoginView] = useState(true);
-    const [isForgotView, setIsForgotView] = useState(false); // <-- 2. Forgot Password State
+    const [isForgotView, setIsForgotView] = useState(false);
     const [isOtpSent, setIsOtpSent] = useState(false);
     const [isSendingOtp, setIsSendingOtp] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const[isSignUp,setIsSignUp]=useState(false)
-    const[isLogin,setIsLogin]=useState(false)
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [isLogin, setIsLogin] = useState(false);
 
-    // --- Form States ---
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    // --- 1. LOGIN KE ALAG STATE ---
+    const [loginUsername, setLoginUsername] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
+
+    // --- 2. SIGNUP KE ALAG STATE ---
+    const [signupUsername, setSignupUsername] = useState("");
+    const [signupPassword, setSignupPassword] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [otp, setOtp] = useState("");
@@ -24,30 +27,56 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const { setAccessToken } = useAuth();
 
+    // --- VIEW SWITCH + CLEAR ---
+    const switchToLogin = () => {
+        // Signup ka sab clear
+        setSignupUsername("");
+        setSignupPassword("");
+        setName("");
+        setEmail("");
+        setOtp("");
+        setIsOtpSent(false);
+        // Login ko BHI khali rakho - default fill band
+        setLoginUsername("");
+        setLoginPassword("");
+        setShowPassword(false);
+        setIsLoginView(true);
+    };
+
+    const switchToSignup = () => {
+        // Login ka sab clear
+        setLoginUsername("");
+        setLoginPassword("");
+        setIsLoginView(false);
+    };
+
     // --- Handlers ---
     const handleLogin = async (e) => {
         e.preventDefault();
-        if(isLogin) return
-        setIsLogin(true)
+        if (isLogin) return;
+        setIsLogin(true);
         try {
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({ username: loginUsername, password: loginPassword }),
                 credentials: 'include'
             });
             const data = await response.json();
             if (data.success) {
                 setAccessToken(data.accessToken);
                 alert("Login SuccessFull! Welcome Boss");
+                // Login ke baad bhi clear kar de taaki back pe wapas bhara na dikhe
+                setLoginUsername("");
+                setLoginPassword("");
                 navigate('/dashboard');
             } else {
                 alert(data.message);
             }
         } catch (error) {
             console.error("Login Crashed", error);
-        }finally{
-            setIsLogin(false)
+        } finally {
+            setIsLogin(false);
         }
     };
 
@@ -65,7 +94,6 @@ export default function LoginForm() {
                 credentials: 'include'
             });
             const data = await response.json();
-
             if (response.ok) {
                 alert("OTP Bhej diya bhai teri email par!");
                 setIsOtpSent(true);
@@ -82,34 +110,41 @@ export default function LoginForm() {
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        if(isSignUp) return
-        setIsSignUp(true)
+        if (isSignUp) return;
+        setIsSignUp(true);
         try {
             const response = await fetch(`${API_URL}/api/auth/signUp`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password, name, email, otp }),
+                body: JSON.stringify({ username: signupUsername, password: signupPassword, name, email, otp }),
                 credentials: 'include'
             });
             const data = await response.json();
             if (data.success) {
                 alert("Signup SuccessFully Please Login");
-                setIsLoginView(true); // <-- Isko true kar diya taaki seedha Login view khule
-                setIsOtpSent(false); // Reset for future
-                setName("")
-                setUsername("")
-                setPassword("")
-                setEmail("")
-                setOtp("")
+                // --- YAHI TERA MAIN FIX HAI ---
+                // 1. Signup component clear
+                setSignupUsername("");
+                setSignupPassword("");
+                setName("");
+                setEmail("");
+                setOtp("");
+                setIsOtpSent(false);
+                // 2. Login ko bilkul khali karke login view pe bhejo
+                setLoginUsername("");
+                setLoginPassword("");
+                setShowPassword(false);
+                setIsLoginView(true); // Seedha Login page pe
             } else {
                 alert(data.error || data.message);
             }
         } catch (error) {
             console.error("Signup Crashed", error);
-        }finally{
-            setIsSignUp(false)
+        } finally {
+            setIsSignUp(false);
         }
     };
+
 
     return (
         <div className="min-h-screen lg:h-screen w-full bg-white lg:bg-[#050b1a] text-slate-900 lg:text-white font-sans relative overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 sm:px-6 lg:px-8 xl:px-14 pt-8 pb-6 lg:py-4 gap-6 select-none">
