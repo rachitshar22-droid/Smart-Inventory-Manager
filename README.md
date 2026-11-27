@@ -1,6 +1,6 @@
 # Smart Inventory Manager
 
-**Live App:** [Click here to open](https://<your-live-link>)
+**Live App:** [Click here to open](https://smart-inventory-manager-theta.vercel.app/)
 
 A multi-tenant inventory and credit (udhar) management web app built for local retail shops.
 
