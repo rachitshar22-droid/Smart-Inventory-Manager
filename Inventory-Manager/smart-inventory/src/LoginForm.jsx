@@ -27,28 +27,8 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const { setAccessToken } = useAuth();
 
-    // --- VIEW SWITCH + CLEAR ---
-    const switchToLogin = () => {
-        // Signup ka sab clear
-        setSignupUsername("");
-        setSignupPassword("");
-        setName("");
-        setEmail("");
-        setOtp("");
-        setIsOtpSent(false);
-        // Login ko BHI khali rakho - default fill band
-        setLoginUsername("");
-        setLoginPassword("");
-        setShowPassword(false);
-        setIsLoginView(true);
-    };
-
-    const switchToSignup = () => {
-        // Login ka sab clear
-        setLoginUsername("");
-        setLoginPassword("");
-        setIsLoginView(false);
-    };
+    
+    
 
     // --- Handlers ---
     const handleLogin = async (e) => {
