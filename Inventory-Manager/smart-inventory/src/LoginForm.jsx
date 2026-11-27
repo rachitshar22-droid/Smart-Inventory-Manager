@@ -117,34 +117,56 @@ export default function LoginForm() {
     };
 
     const handleSignup = async (e) => {
-        e.preventDefault();
-        if (isSignUp) return;
-        setIsSignUp(true);
-        try {
-            const response = await fetch(`${API_URL}/api/auth/signUp`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: signupUsername, password: signupPassword, name, email, otp }),
-                credentials: 'include'
-            });
-            const data = await response.json();
-            if (data.success) {
-                alert("Signup SuccessFully Please Login");
-                // --- FIX 3: Pehle clear, phir view badlo, phir key badlo ---
-                clearSignupForm();
-                clearLoginForm();
-                setShowPassword(false);
-                setIsLoginView(true);
-                setFormKey(prev => prev + 1);
-            } else {
-                alert(data.error || data.message);
-            }
-        } catch (error) {
-            console.error("Signup Crashed", error);
-        } finally {
-            setIsSignUp(false);
+    e.preventDefault();
+    if (isSignUp) return;
+    setIsSignUp(true);
+    try {
+        const response = await fetch(`${API_URL}/api/auth/signUp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: signupUsername, password: signupPassword, name, email, otp }),
+            credentials: 'include'
+        });
+        const data = await response.json();
+        console.log("SIGNUP RESPONSE:", data, "STATUS:", response.status);
+
+        // --- FIX: success ki jagah response.ok check kar ---
+        // Kyunki tera backend "Account Created successfully" bhej raha hai, success:true nahi
+        if (response.ok || data.success || data.message?.includes("successfully") || data.message?.includes("Created")) {
+            
+            // 1. Pehle form ko DOM se hi saaf kar de
+            e.target.reset();
+
+            // 2. Phir saari state saaf kar de
+            setSignupUsername("");
+            setSignupPassword("");
+            setName("");
+            setEmail("");
+            setOtp("");
+            setIsOtpSent(false);
+            setLoginUsername("");
+            setLoginPassword("");
+            setShowPassword(false);
+
+            // 3. Frictionless - alert hata diya, seedha login pe fek do
+            // alert() mat laga, wo hi sab rok raha tha
+            setIsLoginView(true);
+            setFormKey(prev => prev + 1);
+
+            // Optional - chhota sa toast jaisa alert, par baad me
+            setTimeout(() => {
+                alert("Account Created Successfully! Please Login");
+            }, 100);
+
+        } else {
+            alert(data.error || data.message || "Signup failed");
         }
-    };
+    } catch (error) {
+        console.error("Signup Crashed", error);
+    } finally {
+        setIsSignUp(false);
+    }
+};
 
     return (
         <div className="min-h-screen lg:h-screen w-full bg-white lg:bg-[#050b1a] text-slate-900 lg:text-white font-sans relative overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 sm:px-6 lg:px-8 xl:px-14 pt-8 pb-6 lg:py-4 gap-6 select-none">
