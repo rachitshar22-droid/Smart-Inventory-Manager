@@ -13,6 +13,9 @@ export default function LoginForm() {
     const [isSignUp, setIsSignUp] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
 
+    // --- FIX 1: formKey - yehi form ko pura destroy karke naya banayega ---
+    const [formKey, setFormKey] = useState(0);
+
     // --- LOGIN KE ALAG STATE ---
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
@@ -27,24 +30,35 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const { setAccessToken } = useAuth();
 
-    const switchToLogin = () => {
+    const clearSignupForm = () => {
         setSignupUsername("");
         setSignupPassword("");
         setName("");
         setEmail("");
         setOtp("");
         setIsOtpSent(false);
-        setLoginUsername("");
-        setLoginPassword("");
-        setShowPassword(false);
-        setIsLoginView(true);
     };
 
-    const switchToSignup = () => {
+    const clearLoginForm = () => {
         setLoginUsername("");
         setLoginPassword("");
+    };
+
+    const switchToLogin = () => {
+        clearSignupForm();
+        clearLoginForm();
+        setShowPassword(false);
+        setIsLoginView(true);
+        setFormKey(prev => prev + 1); // <-- form ko naya banao
+    };
+
+    // --- FIX 2: YAHI MISS HO RAHA THA - signup bhi clear karo ---
+    const switchToSignup = () => {
+        clearLoginForm();
+        clearSignupForm(); // <-- YE LINE MISSING THI
         setShowPassword(false);
         setIsLoginView(false);
+        setFormKey(prev => prev + 1); // <-- form ko naya banao
     };
 
     const handleLogin = async (e) => {
@@ -62,8 +76,7 @@ export default function LoginForm() {
             if (data.success) {
                 setAccessToken(data.accessToken);
                 alert("Login SuccessFull! Welcome Boss");
-                setLoginUsername("");
-                setLoginPassword("");
+                clearLoginForm();
                 navigate('/dashboard');
             } else {
                 alert(data.message);
@@ -117,16 +130,12 @@ export default function LoginForm() {
             const data = await response.json();
             if (data.success) {
                 alert("Signup SuccessFully Please Login");
-                setSignupUsername("");
-                setSignupPassword("");
-                setName("");
-                setEmail("");
-                setOtp("");
-                setIsOtpSent(false);
-                setLoginUsername("");
-                setLoginPassword("");
+                // --- FIX 3: Pehle clear, phir view badlo, phir key badlo ---
+                clearSignupForm();
+                clearLoginForm();
                 setShowPassword(false);
                 setIsLoginView(true);
+                setFormKey(prev => prev + 1);
             } else {
                 alert(data.error || data.message);
             }
@@ -295,7 +304,7 @@ export default function LoginForm() {
                     <ForgotPassword onBack={() => setIsForgotView(false)} />
                 </div>
             ) : (
-                <div className="relative z-20 w-full max-w-md lg:w-85 shrink-0 mx-auto lg:mx-0 bg-white text-slate-900 rounded-none lg:rounded-2xl p-0 lg:p-5 shadow-none lg:shadow-2xl border-0 lg:border lg:border-slate-100 flex flex-col justify-between">
+                <div key={formKey} className="relative z-20 w-full max-w-md lg:w-85 shrink-0 mx-auto lg:mx-0 bg-white text-slate-900 rounded-none lg:rounded-2xl p-0 lg:p-5 shadow-none lg:shadow-2xl border-0 lg:border lg:border-slate-100 flex flex-col justify-between">
 
                     <div>
                         <div className="hidden lg:flex flex-col items-center text-center mb-2">
@@ -315,7 +324,7 @@ export default function LoginForm() {
                                     <p className="text-xs lg:text-[11px] text-slate-500 font-medium mt-0.5">Sign in to access your inventory dashboard</p>
                                 </div>
 
-                                <form key="login-form" onSubmit={handleLogin} autoComplete="off" className="space-y-4 lg:space-y-3">
+                                <form key={`login-${formKey}`} onSubmit={handleLogin} autoComplete="off" className="space-y-4 lg:space-y-3">
                                     <div>
                                         <label className="block text-xs lg:text-[11px] font-bold text-slate-700 mb-1.5 lg:mb-1">Username</label>
                                         <input
@@ -386,7 +395,7 @@ export default function LoginForm() {
                                     <p className="text-xs lg:text-[10px] text-slate-500 font-medium mt-0.5">Join to manage your inventory smarter</p>
                                 </div>
 
-                                <form key="signup-form" onSubmit={handleSignup} autoComplete="off" className="space-y-3 lg:space-y-2">
+                                <form key={`signup-${formKey}`} onSubmit={handleSignup} autoComplete="off" className="space-y-3 lg:space-y-2">
                                     <div>
                                         <label className="block text-xs lg:text-[10px] font-bold text-slate-700 mb-1 lg:mb-0.5">Full Name</label>
                                         <input
