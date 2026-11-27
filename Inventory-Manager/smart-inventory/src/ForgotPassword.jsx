@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { API_URL } from './config'
 
-const API = 'http://localhost:3000/api/auth/forgot'
+const API = `${API_URL}/api/auth/forgot`
 
 export default function ForgotPassword({ onBack }) {
   const [step, setStep] = useState('email')   // email -> otp -> reset
@@ -56,11 +57,11 @@ export default function ForgotPassword({ onBack }) {
     finally { setBusy(false) }
   }
 
-  return (
-    <div className="bg-white rounded-2xl shadow-2xl p-4 sm:p-5 w-full max-w-85 mx-auto text-slate-800 border border-slate-100">
+ return (
+    <div className="bg-white rounded-none lg:rounded-2xl shadow-none lg:shadow-2xl p-0 lg:p-5 w-full max-w-md lg:w-85 mx-auto text-slate-800 border-0 lg:border lg:border-slate-100">
       
-      {/* Top Brand Logo & Title - Chhota kar diya */}
-      <div className="flex flex-col items-center mb-3">
+      {/* Top Brand Logo (Desktop Only) */}
+      <div className="hidden lg:flex flex-col items-center mb-2">
         <div className="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center mb-1 shadow-md shadow-blue-500/20">
           <div className="w-4 h-4 border-2 border-white rounded-full"></div>
         </div>
@@ -68,72 +69,75 @@ export default function ForgotPassword({ onBack }) {
           <p className="font-bold text-slate-900 text-[13px]">Smart Inventory</p>
           <p className="font-bold text-blue-600 text-[11px]">Manager</p>
         </div>
+      </div>
 
-        <h2 className="text-[17px] font-extrabold text-slate-900 mt-2.5">
+      {/* Heading & Subtitle */}
+      <div className="text-center mb-5 lg:mb-3.5 lg:border-t lg:border-slate-100 lg:pt-2">
+        <h2 className="text-xl lg:text-[17px] font-extrabold text-slate-900">
           {step === 'email' && 'Reset Password'}
           {step === 'otp' && 'Verify OTP'}
           {step === 'reset' && 'Create New Password'}
         </h2>
-        <p className="text-[11px] text-slate-500 mt-0.5 text-center">
-          {step === 'email' && 'Apna email daalo, OTP bhej denge'}
-          {step === 'otp' && `OTP bheja hai ${email} pe`}
-          {step === 'reset' && 'Naya password banao: 8 akshar, 1 bada, 1 number'}
+        <p className="text-xs lg:text-[11px] text-slate-500 font-medium mt-0.5 text-center">
+          {step === 'email' && 'Enter your email to get an OTP'}
+          {step === 'otp' && `We sent a 6-digit OTP to ${email}`}
+          {step === 'reset' && 'Use at least 8 characters, 1 uppercase, and 1 number'}
         </p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4 lg:space-y-3">
         
         {/* STEP 1: EMAIL */}
         {step === 'email' && (
-          <div className="space-y-3">
+          <div className="space-y-4 lg:space-y-3">
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">Email Address</label>
+              <label className="block text-xs lg:text-[11px] font-bold text-slate-700 mb-1.5 lg:mb-1">Email Address</label>
               <input
                 type="email"
                 placeholder="Enter your email address"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
+                className="w-full px-3.5 py-3 lg:px-3 lg:py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-base lg:text-xs font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:ring-2 focus:ring-slate-200 lg:focus:ring-blue-100 focus:bg-white transition-all"
               />
             </div>
             <button
               disabled={busy || !email}
               onClick={sendOtp}
-              className="w-full bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 disabled:bg-blue-300 disabled:cursor-not-allowed text-white font-bold py-2.5 rounded-xl shadow-md transition-all text-xs cursor-pointer"
+              className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 lg:py-2.5 rounded-xl shadow-sm transition-all text-sm lg:text-xs cursor-pointer"
             >
-              {busy ? 'Bhej raha hu...' : 'Send OTP →'}
+              {busy ? 'Sending...' : 'Send OTP →'}
             </button>
           </div>
         )}
 
         {/* STEP 2: OTP */}
         {step === 'otp' && (
-          <div className="space-y-3">
+          <div className="space-y-4 lg:space-y-3">
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">6-Digit OTP</label>
+              <label className="block text-xs lg:text-[11px] font-bold text-slate-700 mb-1.5 lg:mb-1">6-Digit OTP</label>
               <input
                 maxLength={6}
                 placeholder="• • • • • •"
                 value={otp}
                 onChange={e => setOtp(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-center tracking-[0.5em] font-bold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
+                className="w-full px-3.5 py-3 lg:px-3 lg:py-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-center tracking-[0.5em] font-bold text-base lg:text-sm focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:ring-2 focus:ring-slate-200 lg:focus:ring-blue-100 focus:bg-white transition-all"
               />
             </div>
             <button
               disabled={busy || otp.length !== 6}
               onClick={verifyOtp}
-              className="w-full bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 disabled:bg-blue-300 disabled:cursor-not-allowed text-white font-bold py-2.5 rounded-xl shadow-md transition-all text-xs cursor-pointer"
+              className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 lg:py-2.5 rounded-xl shadow-sm transition-all text-sm lg:text-xs cursor-pointer"
             >
-              {busy ? 'Checking...' : 'Verify OTP →'}
+              {busy ? 'Verifying...' : 'Verify OTP →'}
             </button>
           </div>
         )}
 
-        {/* STEP 3: NEW PASSWORD (WITH EYE ICON) */}
+        {/* STEP 3: NEW PASSWORD */}
         {step === 'reset' && (
-          <div className="space-y-3">
+          <div className="space-y-4 lg:space-y-3">
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">New Password</label>
+              <label className="block text-xs lg:text-[11px] font-bold text-slate-700 mb-1.5 lg:mb-1">New Password</label>
               <div className="relative">
                 <input
                   type={showPass ? "text" : "password"}
@@ -141,24 +145,24 @@ export default function ForgotPassword({ onBack }) {
                   placeholder="Enter new password"
                   value={newPassword}
                   onChange={e => setNewPassword(e.target.value)}
-                  className="w-full px-3 py-2 pr-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
+                  className="w-full px-3.5 py-3 lg:px-3 lg:py-2 pr-11 lg:pr-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-base lg:text-xs font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:ring-2 focus:ring-slate-200 lg:focus:ring-blue-100 focus:bg-white transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
+                  className="absolute right-3.5 lg:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 lg:hover:text-blue-600 focus:outline-none cursor-pointer"
                 >
                   {showPass ? (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                    <svg className="w-5 h-5 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   ) : (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                    <svg className="w-5 h-5 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
                   )}
                 </button>
               </div>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-slate-700 mb-1">Confirm Password</label>
+              <label className="block text-xs lg:text-[11px] font-bold text-slate-700 mb-1.5 lg:mb-1">Confirm Password</label>
               <div className="relative">
                 <input
                   type={showPass ? "text" : "password"}
@@ -166,17 +170,17 @@ export default function ForgotPassword({ onBack }) {
                   placeholder="Confirm new password"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
-                  className="w-full px-3 py-2 pr-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
+                  className="w-full px-3.5 py-3 lg:px-3 lg:py-2 pr-11 lg:pr-10 rounded-xl bg-slate-50 border border-slate-200 text-slate-800 text-base lg:text-xs font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:ring-2 focus:ring-slate-200 lg:focus:ring-blue-100 focus:bg-white transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 focus:outline-none cursor-pointer"
+                  className="absolute right-3.5 lg:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-900 lg:hover:text-blue-600 focus:outline-none cursor-pointer"
                 >
                   {showPass ? (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                    <svg className="w-5 h-5 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                   ) : (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
+                    <svg className="w-5 h-5 lg:w-4 lg:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
                   )}
                 </button>
               </div>
@@ -185,7 +189,7 @@ export default function ForgotPassword({ onBack }) {
             <button
               disabled={busy || !newPassword || !confirmPassword}
               onClick={resetPassword}
-              className="w-full bg-linear-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 disabled:bg-blue-300 disabled:cursor-not-allowed text-white font-bold py-2.5 rounded-xl shadow-md transition-all text-xs cursor-pointer"
+              className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold py-3.5 lg:py-2.5 rounded-xl shadow-sm transition-all text-sm lg:text-xs cursor-pointer"
             >
               {busy ? 'Updating...' : 'Update Password →'}
             </button>
@@ -195,27 +199,27 @@ export default function ForgotPassword({ onBack }) {
         {/* Error / Status Message Box */}
         {msg && (
           <div className="p-2.5 rounded-xl bg-red-50 border border-red-100 text-center">
-            <p className="text-[11px] font-semibold text-red-600">{msg}</p>
+            <p className="text-xs lg:text-[11px] font-semibold text-red-600">{msg}</p>
           </div>
         )}
 
         {/* Back to Login Button */}
-        <div className="pt-2 text-center border-t border-slate-100">
+        <div className="pt-4 lg:pt-2 text-center border-t border-slate-100">
           <button
             onClick={onBack}
-            className="text-[11px] text-slate-500 hover:text-blue-600 font-semibold transition-colors cursor-pointer"
+            className="text-xs lg:text-[11px] text-slate-600 hover:text-blue-600 font-medium transition-colors cursor-pointer"
           >
-            Password yaad aa gaya? <span className="text-blue-600 underline">Back to Login</span>
+            Remember your password? <span className="text-blue-600 font-extrabold hover:underline">Back to Login</span>
           </button>
         </div>
 
-        {/* Footer Text */}
-        <div className="text-center pt-1">
+        {/* Footer Text (Desktop Only) */}
+        <div className="hidden lg:block text-center pt-1">
           <p className="text-[10px] font-bold text-slate-500">Smart Inventory Manager</p>
           <p className="text-[9px] text-slate-400">Dukaan ka Stock + Udhar</p>
         </div>
 
       </div>
     </div>
-  )
+  );
 }

@@ -3,7 +3,7 @@ const RefreshToken=require('../models/RefreshToken')
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 const {randomUUID}=require('crypto')
-const cookieOpts={httpOnly:true,secure:false,sameSite:'lax'}
+const cookieOpts={httpOnly:true,secure:true,sameSite:'none'}
  
 const issueRefresh=async(tokenData,family=randomUUID())=>{
     const jti=randomUUID()

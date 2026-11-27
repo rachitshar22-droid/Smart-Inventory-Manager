@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "./AuthContext"
+import { API_URL } from "./config"
 
 export default function ExpiringSoon() {
     const { authFetch } = useAuth()
@@ -8,7 +9,7 @@ export default function ExpiringSoon() {
     useEffect(() => {
         const fetchExpiryItems = async () => {
             try {
-                const response = await authFetch('http://localhost:3000/api/inventory', {})
+                const response = await authFetch(`${API_URL}/api/inventory`, {})
                 if (!response.ok) {
                     console.log('Fetch failed:', response.status)
                     return
@@ -25,49 +26,53 @@ export default function ExpiringSoon() {
     }, [])
 
     const deadCount = inventory.filter(i => i.daysRemaining < 0).length
-    const criticalCount = inventory.filter(i => i.daysRemaining >= 0 && i.daysRemaining <= 3).length
+    const criticalCount = inventory.filter(i => i.daysRemaining >= 0 && i.daysRemaining <= 30).length
 
-    return (
-        <div className="min-h-screen bg-[#0A0F1E] p-4 sm:p-6 text-white">
+  return (
+        <div className="min-h-screen bg-slate-50 p-4 sm:p-6 text-slate-900">
             <div className="max-w-7xl mx-auto">
                 
                 {/* Header */}
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 mb-5 border-b border-slate-800">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3.5 pb-4 mb-4 border-b border-slate-200">
                     <div>
-                        <p className="text-[12px] font-bold tracking-widest text-amber-400">DUKAAN • STOCK</p>
-                        <h1 className="text-[28px] sm:text-[32px] font-extrabold tracking-tight leading-none mt-1">
-                            Khatam Hone Wala Maal
+                      
+                        <h1 className="text-[24px] sm:text-[30px] font-extrabold tracking-tight leading-none text-slate-900 mt-1">
+                         Stock nearing exhaustion
                         </h1>
-                        <p className="text-[13px] text-slate-400 mt-1.5">Jo maal expire hone wala hai ya ho gaya hai, pehle isko niptao.</p>
+                        <p className="text-[12px] sm:text-[13px] text-slate-500 font-medium mt-1">
+                            Sell the stock that is about to expire first.
+                        </p>
                     </div>
 
-                    {/* Pills */}
-                    <div className="flex items-center gap-2.5">
-                        <div className="bg-[#1A150A] border border-amber-500/40 px-4 py-2.5 rounded-xl flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                            <span className="text-[12px] font-semibold text-slate-300">Expire Hone Wala:</span>
-                            <span className="text-[15px] font-extrabold text-amber-400">{criticalCount}</span>
+                    {/* Compact Pills */}
+                    <div className="grid grid-cols-2 sm:flex items-center gap-2">
+                        <div className="bg-amber-50 border border-amber-200/80 px-3 py-2 rounded-xl flex items-center justify-between sm:justify-start gap-2">
+                            <div className="flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                                <span className="text-[11px] font-semibold text-amber-900">About to expire</span>
+                            </div>
+                            <span className="text-[14px] font-extrabold text-amber-700">{criticalCount}</span>
                         </div>
-                        <div className="bg-[#1A0F0F] border border-red-500/40 px-4 py-2.5 rounded-xl flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                            <span className="text-[12px] font-semibold text-slate-300">Expire Ho Gaya:</span>
-                            <span className="text-[15px] font-extrabold text-red-400">{deadCount}</span>
+                        <div className="bg-red-50 border border-red-200/80 px-3 py-2 rounded-xl flex items-center justify-between sm:justify-start gap-2">
+                            <div className="flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-red-500 shrink-0"></span>
+                                <span className="text-[11px] font-semibold text-red-900">It has expired</span>
+                            </div>
+                            <span className="text-[14px] font-extrabold text-red-600">{deadCount}</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Compact Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3.5">
                     {inventory.length === 0 ? (
-                        <div className="col-span-full bg-[#121A2E] border border-slate-800 p-10 rounded-2xl text-center">
-                            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mx-auto mb-3 text-xl font-bold">
+                        <div className="col-span-full bg-white border border-slate-200/80 p-10 rounded-2xl text-center shadow-xs">
+                            <div className="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 mx-auto mb-2.5 text-lg font-bold">
                                 ✓
                             </div>
-                            <p className="text-[15px] font-bold text-white">
-                                Sab Theek Hai!
-                            </p>
-                            <p className="text-[13px] text-slate-400 mt-1">
-                                Bhai sab theek hai, koi saman kharab hone wala nahi hai abhi. Chill kar.
+                            <p className="text-[15px] font-bold text-slate-900">Everything is fine!</p>
+                            <p className="text-[13px] text-slate-500 mt-1">
+                                Nothing is going to spoil.Everything is safe for now
                             </p>
                         </div>
                     ) : (
@@ -77,74 +82,50 @@ export default function ExpiringSoon() {
                             return (
                                 <div
                                     key={item._id}
-                                    className={`bg-[#121A2E] rounded-2xl p-4 border flex flex-col justify-between gap-4 ${
-                                        isDead
-                                            ? "border-red-500/40 border-t-4 border-t-red-500"
-                                            : "border-amber-500/40 border-t-4 border-t-amber-400"
+                                    className={`bg-white rounded-xl p-3.5 border border-slate-200/80 border-l-4 shadow-xs flex flex-col gap-2.5 transition-all hover:border-slate-300 ${
+                                        isDead ? "border-l-red-500" : "border-l-amber-400"
                                     }`}
                                 >
-                                    <div>
-                                        {/* Top Row */}
-                                        <div className="flex items-center justify-between gap-2 mb-3">
-                                            <span className="text-[11px] font-bold uppercase tracking-wide bg-slate-800 text-slate-200 px-2.5 py-1 rounded-full">
+                                    {/* Top Row: Name + Meta on Left, Days Badge on Right */}
+                                    <div className="flex items-start justify-between gap-2">
+                                        <div className="min-w-0">
+                                            <h2 className="text-[15px] font-bold text-slate-900 leading-tight truncate">
+                                                {item.productName}
+                                            </h2>
+                                            <p className="text-[11px] font-medium text-slate-500 mt-0.5">
                                                 {item.category || "General"}
-                                            </span>
-
-                                            <span
-                                                className={`text-[12px] font-bold px-2.5 py-1 rounded-full ${
-                                                    isDead
-                                                        ? "bg-red-500/15 text-red-400"
-                                                        : "bg-amber-400/15 text-amber-300"
-                                                }`}
-                                            >
-                                                {isDead
-                                                    ? `Expire hua • ${Math.abs(item.daysRemaining)} din pehle`
-                                                    : `${item.daysRemaining} din bache`}
-                                            </span>
+                                                {item.batchNo && <span className="font-mono text-slate-400"> • #{item.batchNo}</span>}
+                                            </p>
                                         </div>
 
-                                        {/* Product Title */}
-                                        <h2 className="text-[17px] font-bold text-white leading-snug">
-                                            {item.productName}
-                                        </h2>
-
-                                        {/* Details Box */}
-                                        <div className="mt-3 bg-[#0A0F1E] border border-slate-800 rounded-xl p-3 space-y-2 text-[13px]">
-                                            {item.batchNo && (
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-[12px] text-slate-400">Batch No.</span>
-                                                    <span className="text-white font-bold">#{item.batchNo}</span>
-                                                </div>
-                                            )}
-                                            {item.expiryDate && (
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-[12px] text-slate-400">Expiry Date</span>
-                                                    <span className={`font-bold ${isDead ? "text-red-400" : "text-amber-300"}`}>
-                                                        {item.expiryDate.split('T')[0].split('-').reverse().join('-')}
-                                                    </span>
-                                                </div>
-                                            )}
-                                            {item.quantity !== undefined && (
-                                                <div className="flex justify-between items-center">
-                                                    <span className="text-[12px] text-slate-400">Kitna Bacha Hai</span>
-                                                    <span className="text-emerald-400 font-bold">{item.quantity} Piece</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Footer */}
-                                    <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-[12px]">
-                                        <span className="text-slate-400">Status</span>
                                         <span
-                                            className={`font-bold px-2.5 py-1 rounded-full ${
+                                            className={`shrink-0 text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
                                                 isDead
-                                                    ? "bg-red-500/15 text-red-400"
-                                                    : "bg-amber-400/15 text-amber-300"
+                                                    ? "bg-red-50 text-red-700 border-red-200/70"
+                                                    : "bg-amber-50 text-amber-800 border-amber-200/70"
                                             }`}
                                         >
-                                            {isDead ? "Expire Ho Gaya" : "Jaldi Becho"}
+                                            {isDead
+                                                ? `Expired • ${Math.abs(item.daysRemaining)}d pehle`
+                                                : `${item.daysRemaining}d left`}
                                         </span>
+                                    </div>
+
+                                    {/* Bottom Strip: Qty & Expiry Side-by-Side */}
+                                    <div className="bg-slate-50/90 border border-slate-100 rounded-lg px-3 py-2 flex items-center justify-between text-[12px]">
+                                        {item.quantity !== undefined && (
+                                            <span className="text-slate-500 font-medium">
+                                                Stock: <b className="text-emerald-600 font-bold">{item.quantity} pcs</b>
+                                            </span>
+                                        )}
+                                        {item.expiryDate && (
+                                            <span className="text-slate-500 font-medium">
+                                                Exp:{' '}
+                                                <b className={`font-bold ${isDead ? "text-red-600" : "text-slate-800"}`}>
+                                                    {item.expiryDate.split('T')[0].split('-').reverse().join('-')}
+                                                </b>
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             )

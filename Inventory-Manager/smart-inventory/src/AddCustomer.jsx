@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { API_URL } from "./config";
 import { useNavigate,useLocation} from "react-router-dom";
 import { useAuth } from "./AuthContext";
-const API='http://localhost:3000/api/inventory/customers'
+const API=`${API_URL}/api/inventory/customers`
 
 export default function AddCustomer(){
     const {authFetch}=useAuth()
@@ -42,112 +43,119 @@ export default function AddCustomer(){
     setSaving(false)
   }
 }
-   return (
-  <div className="flex min-h-screen items-center justify-center bg-[#0A0F1E] p-3 text-white">
-    <div className="w-full max-w-md rounded-xl border border-slate-800 bg-[#121A2E] p-4 sm:p-5">
-      
-      {/* Header - Chhota */}
-      <div className="mb-4 text-center">
-        <p className="text-[10px] font-bold tracking-widest text-amber-400">DUKAAN • UDHAR KHATA</p>
-        <h1 className="text-[19px] font-extrabold tracking-tight leading-tight mt-1">
-          {editData ? 'Udhar Update Karo' : 'Naya Udhar Likho'}
-        </h1>
-        <p className="mt-0.5 text-[11px] text-slate-400">
-          {editData ? 'Customer ka paisa ya detail badal raha hai.' : 'Naam, paisa aur number daalo, khata ban jayega.'}
-        </p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-2.5">
+  return (
+    <div className="min-h-screen bg-white sm:bg-slate-50 px-4 py-5 sm:py-8 text-slate-900">
+      <div className="w-full max-w-xl mx-auto sm:bg-white sm:border sm:border-slate-200/80 sm:p-7 sm:rounded-2xl sm:shadow-sm">
         
-        {/* Customer Name */}
-        <div>
-          <label className="mb-1 block text-[11px] font-semibold text-slate-200">
-            Customer ka Naam
-          </label>
-          <input
-            name="name"
-            type="text"
-            placeholder="e.g. Rajesh Sharma"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-          />
+        {/* Header - Left aligned, clean */}
+        <div className="mb-6">
+          
+          <h1 className="text-[26px] sm:text-[28px] font-extrabold tracking-tight leading-tight text-slate-900 mt-1">
+            {editData ? 'Update the outstanding balance' : 'Record a new loan!'}
+          </h1>
+          <p className="mt-1 text-[13px] text-slate-500 font-medium">
+            {editData
+              ? 'The record is being updated.'
+              : 'Enter the details and a record will be created'}
+          </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-2.5">
-          {/* Amount */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          
+          {/* Customer Name */}
           <div>
-            <label className="mb-1 block text-[11px] font-semibold text-slate-200">
-              Kitna Udhar Diya? (₹)
+            <label className="mb-1.5 block text-[12px] font-bold text-slate-700">
+              Customer Name
             </label>
             <input
-              name="totalAmount"
-              type="number"
-              placeholder="e.g. 1500"
-              value={form.totalAmount}
+              name="name"
+              type="text"
+              placeholder="e.g. Rajesh Sharma"
+              value={form.name}
               onChange={handleChange}
               required
-              className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-base sm:text-[14px] font-medium text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:bg-white focus:ring-2 focus:ring-slate-900/10 focus:outline-none transition-all"
             />
           </div>
 
-          {/* Phone */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Amount */}
+            <div className="min-w-0">
+              <label className="mb-1.5 block text-[12px] font-bold text-slate-700">
+                How much was lent?
+              </label>
+              <div className="relative">
+                <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[15px] font-bold text-slate-500">
+                  ₹
+                </span>
+                <input
+                  name="totalAmount"
+                  type="number"
+                  inputMode="numeric"
+                  placeholder="1500"
+                  value={form.totalAmount}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50 pl-8 pr-3.5 py-3 text-base sm:text-[14px] font-bold text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:bg-white focus:ring-2 focus:ring-slate-900/10 focus:outline-none transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="min-w-0">
+              <label className="mb-1.5 block text-[12px] font-bold text-slate-700">
+                WhatsApp Number
+              </label>
+              <input
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                placeholder="98765..."
+                value={form.phone}
+                onChange={handleChange}
+                maxLength={10}
+                required
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-base sm:text-[14px] font-medium text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:bg-white focus:ring-2 focus:ring-slate-900/10 focus:outline-none transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Address */}
           <div>
-            <label className="mb-1 block text-[11px] font-semibold text-slate-200">
-              WhatsApp Number
+            <label className="mb-1.5 block text-[12px] font-bold text-slate-700">
+              Address
             </label>
             <input
-              name="phone"
-              type="tel"
-              placeholder="e.g. 9876543210"
-              value={form.phone}
+              name="address"
+              type="text"
+              placeholder="e.g. Main Market, Firozabad"
+              value={form.address}
               onChange={handleChange}
-              maxLength={10}
               required
-              className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-3 text-base sm:text-[14px] font-medium text-slate-900 placeholder-slate-400 focus:border-slate-900 focus:bg-white focus:ring-2 focus:ring-slate-900/10 focus:outline-none transition-all"
             />
           </div>
-        </div>
 
-        {/* Address */}
-        <div>
-          <label className="mb-1 block text-[11px] font-semibold text-slate-200">
-            Kaha Rehta Hai? / Mohalla
-          </label>
-          <input
-            name="address"
-            type="text"
-            placeholder="e.g. Main Market, Firozabad"
-            value={form.address}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-slate-700 bg-[#0A0F1E] px-3 py-2.5 text-[13px] text-white placeholder-slate-500 focus:border-amber-400 focus:outline-none"
-          />
-        </div>
+          {msg && (
+            <div className="rounded-xl border border-red-200 bg-red-50 px-3.5 py-2.5 text-center text-[12px] font-semibold text-red-600">
+              {msg}
+            </div>
+          )}
 
-        {msg && (
-          <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-center text-[11px] font-medium text-red-300">
-            {msg}
-          </div>
-        )}
+          <button
+            type="submit"
+            disabled={saving}
+            className="w-full rounded-xl bg-slate-900 hover:bg-slate-800 px-4 py-3.5 text-[15px] font-bold text-white shadow-sm transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer mt-2"
+          >
+            {editData
+              ? (saving ? 'Save ho raha hai...' : 'Update it')
+              : (saving ? 'Save ho raha hai...' : '+ Record it in the credit account')}
+          </button>
 
-        <button
-          type="submit"
-          disabled={saving}
-          className="w-full rounded-lg bg-amber-400 hover:bg-amber-300 px-4 py-2.5 text-[13px] font-bold text-black transition-all active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-        >
-          {editData
-            ? (saving ? 'Save ho raha hai...' : 'Update Karo')
-            : (saving ? 'Save ho raha hai...' : '+ Udhar Khate Me Likho')}
-        </button>
+          
 
-        <p className="text-center text-[10px] text-slate-500 pt-0.5">
-          Save karte hi ye Udhar Khate me dikhne lagega.
-        </p>
-
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
-)
+  )
 }

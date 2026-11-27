@@ -1,4 +1,5 @@
 import { createContext,useState,useEffect,useContext,useRef } from "react";
+import { API_URL } from "./config";
 const AuthContext=createContext()
 export const AuthProvider=({children})=>{
     const[accessToken,setAccessToken]=useState(null)
@@ -9,7 +10,7 @@ export const AuthProvider=({children})=>{
     useEffect(()=>{
         const fetchNewToken=async()=>{
             try{
-                const response=await fetch('http://localhost:3000/api/auth/refresh',{
+                const response=await fetch(`${API_URL}/api/auth/refresh`,{
                     method:'GET',
                     credentials:'include'
                 })
@@ -36,7 +37,7 @@ export const AuthProvider=({children})=>{
   if (!refreshing.current) {
     refreshing.current = (async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/auth/refresh', { credentials: 'include' })
+        const res = await fetch(`${API_URL}/api/auth/refresh`, { credentials: 'include' })
         const data = await res.json()
         if (data.success) { setAccessToken(data.accessToken); return data.accessToken }
         setAccessToken(null)
