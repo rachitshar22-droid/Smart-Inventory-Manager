@@ -13,11 +13,11 @@ export default function LoginForm() {
     const [isSignUp, setIsSignUp] = useState(false);
     const [isLogin, setIsLogin] = useState(false);
 
-    // --- 1. LOGIN KE ALAG STATE ---
+    // --- LOGIN KE ALAG STATE ---
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
 
-    // --- 2. SIGNUP KE ALAG STATE ---
+    // --- SIGNUP KE ALAG STATE ---
     const [signupUsername, setSignupUsername] = useState("");
     const [signupPassword, setSignupPassword] = useState("");
     const [name, setName] = useState("");
@@ -27,10 +27,26 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const { setAccessToken } = useAuth();
 
-    
-    
+    const switchToLogin = () => {
+        setSignupUsername("");
+        setSignupPassword("");
+        setName("");
+        setEmail("");
+        setOtp("");
+        setIsOtpSent(false);
+        setLoginUsername("");
+        setLoginPassword("");
+        setShowPassword(false);
+        setIsLoginView(true);
+    };
 
-    // --- Handlers ---
+    const switchToSignup = () => {
+        setLoginUsername("");
+        setLoginPassword("");
+        setShowPassword(false);
+        setIsLoginView(false);
+    };
+
     const handleLogin = async (e) => {
         e.preventDefault();
         if (isLogin) return;
@@ -46,7 +62,6 @@ export default function LoginForm() {
             if (data.success) {
                 setAccessToken(data.accessToken);
                 alert("Login SuccessFull! Welcome Boss");
-                // Login ke baad bhi clear kar de taaki back pe wapas bhara na dikhe
                 setLoginUsername("");
                 setLoginPassword("");
                 navigate('/dashboard');
@@ -102,19 +117,16 @@ export default function LoginForm() {
             const data = await response.json();
             if (data.success) {
                 alert("Signup SuccessFully Please Login");
-                // --- YAHI TERA MAIN FIX HAI ---
-                // 1. Signup component clear
                 setSignupUsername("");
                 setSignupPassword("");
                 setName("");
                 setEmail("");
                 setOtp("");
                 setIsOtpSent(false);
-                // 2. Login ko bilkul khali karke login view pe bhejo
                 setLoginUsername("");
                 setLoginPassword("");
                 setShowPassword(false);
-                setIsLoginView(true); // Seedha Login page pe
+                setIsLoginView(true);
             } else {
                 alert(data.error || data.message);
             }
@@ -125,25 +137,20 @@ export default function LoginForm() {
         }
     };
 
-
     return (
         <div className="min-h-screen lg:h-screen w-full bg-white lg:bg-[#050b1a] text-slate-900 lg:text-white font-sans relative overflow-y-auto lg:overflow-hidden flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 sm:px-6 lg:px-8 xl:px-14 pt-8 pb-6 lg:py-4 gap-6 select-none">
 
-            {/* Warehouse Background + Tailwind v4 Linear Gradient Overlay (Desktop Only) */}
             <div
                 className="hidden lg:block absolute inset-0 bg-cover bg-center opacity-20 mix-blend-luminosity pointer-events-none"
                 style={{ backgroundImage: "url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=2070&auto=format&fit=crop')" }}
             ></div>
             <div className="hidden lg:block absolute inset-0 bg-linear-to-r from-[#050b1a] via-[#071128]/90 to-[#0b1a3a]/80 pointer-events-none"></div>
 
-            {/* Ambient Glows (Desktop Only) */}
             <div className="hidden lg:block absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 blur-3xl pointer-events-none"></div>
             <div className="hidden lg:block absolute bottom-0 left-1/3 w-96 h-96 bg-cyan-500/15 blur-3xl pointer-events-none"></div>
 
-            {/* LEFT SECTION */}
             <div className="relative z-10 w-full lg:flex-1 lg:h-full flex flex-col justify-center lg:justify-between lg:pr-4 py-1">
 
-                {/* ===== MOBILE ONLY - CLEAN CENTER LOGO ===== */}
                 <div className="flex lg:hidden flex-col items-center text-center">
                     <div className="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center shadow-md shrink-0">
                         <svg className="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -156,11 +163,9 @@ export default function LoginForm() {
                         <div className="text-2xl font-extrabold tracking-tight leading-none text-slate-900">
                             Smart Inventory <span className="text-blue-600">Manager</span>
                         </div>
-
                     </div>
                 </div>
 
-                {/* ===== DESKTOP ONLY - LEFT LOGO ===== */}
                 <div className="hidden lg:flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                         <div className="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-blue-500/30 border border-white/20 shrink-0">
@@ -179,7 +184,6 @@ export default function LoginForm() {
                     </div>
                 </div>
 
-                {/* Main Content - Desktop Only */}
                 <div className="hidden lg:grid lg:grid-cols-12 gap-4 xl:gap-6 items-center my-auto">
                     <div className="lg:col-span-7 space-y-3.5">
                         <div>
@@ -280,14 +284,12 @@ export default function LoginForm() {
                     </div>
                 </div>
 
-                {/* Bottom Status */}
                 <div className="hidden lg:flex text-[10px] text-slate-400 items-center gap-4 font-medium">
                     <span>● Stock Alert On Hai</span>
                     <span>● Expire Se Pehle Yaad Dilayega</span>
                 </div>
             </div>
 
-            {/* RIGHT SECTION */}
             {isForgotView ? (
                 <div className="relative z-20 w-full max-w-md lg:w-85 shrink-0 mx-auto lg:mx-0">
                     <ForgotPassword onBack={() => setIsForgotView(false)} />
@@ -296,7 +298,6 @@ export default function LoginForm() {
                 <div className="relative z-20 w-full max-w-md lg:w-85 shrink-0 mx-auto lg:mx-0 bg-white text-slate-900 rounded-none lg:rounded-2xl p-0 lg:p-5 shadow-none lg:shadow-2xl border-0 lg:border lg:border-slate-100 flex flex-col justify-between">
 
                     <div>
-                        {/* Card Internal Logo - Laptop pe hi dikhega, mobile pe upar wala bada logo hai */}
                         <div className="hidden lg:flex flex-col items-center text-center mb-2">
                             <div className="w-8 h-8 rounded-xl bg-linear-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-md mb-1">
                                 <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -314,14 +315,15 @@ export default function LoginForm() {
                                     <p className="text-xs lg:text-[11px] text-slate-500 font-medium mt-0.5">Sign in to access your inventory dashboard</p>
                                 </div>
 
-                                <form onSubmit={handleLogin} className="space-y-4 lg:space-y-3">
+                                <form key="login-form" onSubmit={handleLogin} autoComplete="off" className="space-y-4 lg:space-y-3">
                                     <div>
                                         <label className="block text-xs lg:text-[11px] font-bold text-slate-700 mb-1.5 lg:mb-1">Username</label>
                                         <input
                                             type="text"
                                             placeholder="Enter your username"
-                                            value={username}
-                                            onChange={(e) => setUsername(e.target.value)}
+                                            value={loginUsername}
+                                            onChange={(e) => setLoginUsername(e.target.value)}
+                                            autoComplete="off"
                                             className="w-full px-3.5 py-3 lg:px-3 lg:py-2 bg-slate-50 border border-slate-200 rounded-xl text-base lg:text-xs text-slate-800 font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:ring-2 focus:ring-slate-200 lg:focus:ring-blue-100 focus:bg-white transition-all"
                                         />
                                     </div>
@@ -331,8 +333,9 @@ export default function LoginForm() {
                                             <input
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Enter your password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                value={loginPassword}
+                                                onChange={(e) => setLoginPassword(e.target.value)}
+                                                autoComplete="new-password"
                                                 className="w-full px-3.5 py-3 lg:px-3 lg:py-2 pr-11 lg:pr-10 bg-slate-50 border border-slate-200 rounded-xl text-base lg:text-xs text-slate-800 font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:ring-2 focus:ring-slate-200 lg:focus:ring-blue-100 focus:bg-white transition-all"
                                             />
                                             <button
@@ -351,7 +354,7 @@ export default function LoginForm() {
 
                                     <div className="flex items-center justify-between text-xs lg:text-[11px] pt-0.5">
                                         <label className="flex items-center gap-2 lg:gap-1.5 font-semibold text-slate-700 cursor-pointer">
-                                            <input type="checkbox" defaultChecked className="w-4 h-4 lg:w-3.5 lg:h-3.5 rounded text-blue-600" />
+                                            <input type="checkbox" className="w-4 h-4 lg:w-3.5 lg:h-3.5 rounded text-blue-600" />
                                             Remember me
                                         </label>
                                         <span
@@ -362,15 +365,15 @@ export default function LoginForm() {
                                         </span>
                                     </div>
 
-                                    <button type="submit" className="w-full py-3.5 lg:py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm lg:text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2">
-                                        <span>Secure Login</span><span>→</span>
+                                    <button type="submit" disabled={isLogin} className="w-full py-3.5 lg:py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm lg:text-xs rounded-xl shadow-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-2 disabled:opacity-50">
+                                        <span>{isLogin ? "Logging in..." : "Secure Login"}</span><span>→</span>
                                     </button>
                                 </form>
 
                                 <div className="mt-5 lg:mt-3.5 text-center">
                                     <p className="text-xs lg:text-[11px] text-slate-600 font-medium">
                                         Don't have an account?{" "}
-                                        <span onClick={() => setIsLoginView(false)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
+                                        <span onClick={switchToSignup} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
                                             Sign up
                                         </span>
                                     </p>
@@ -383,11 +386,11 @@ export default function LoginForm() {
                                     <p className="text-xs lg:text-[10px] text-slate-500 font-medium mt-0.5">Join to manage your inventory smarter</p>
                                 </div>
 
-                                <form onSubmit={handleSignup} className="space-y-3 lg:space-y-2">
+                                <form key="signup-form" onSubmit={handleSignup} autoComplete="off" className="space-y-3 lg:space-y-2">
                                     <div>
                                         <label className="block text-xs lg:text-[10px] font-bold text-slate-700 mb-1 lg:mb-0.5">Full Name</label>
                                         <input
-                                            type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)}
+                                            type="text" placeholder="John Doe" value={name} onChange={(e) => setName(e.target.value)} autoComplete="off"
                                             className="w-full px-3.5 py-2.5 lg:px-3 lg:py-1.5 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-lg text-base lg:text-xs text-slate-800 font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:bg-white transition-all"
                                         />
                                     </div>
@@ -395,7 +398,7 @@ export default function LoginForm() {
                                     <div>
                                         <label className="block text-xs lg:text-[10px] font-bold text-slate-700 mb-1 lg:mb-0.5">Username</label>
                                         <input
-                                            type="text" placeholder="johndoe123" value={username} onChange={(e) => setUsername(e.target.value)}
+                                            type="text" placeholder="johndoe123" value={signupUsername} onChange={(e) => setSignupUsername(e.target.value)} autoComplete="off"
                                             className="w-full px-3.5 py-2.5 lg:px-3 lg:py-1.5 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-lg text-base lg:text-xs text-slate-800 font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:bg-white transition-all"
                                         />
                                     </div>
@@ -406,8 +409,9 @@ export default function LoginForm() {
                                             <input
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Create strong password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                value={signupPassword}
+                                                onChange={(e) => setSignupPassword(e.target.value)}
+                                                autoComplete="new-password"
                                                 className="w-full px-3.5 py-2.5 lg:px-3 lg:py-1.5 pr-11 lg:pr-10 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-lg text-base lg:text-xs text-slate-800 font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:bg-white transition-all"
                                             />
                                             <button
@@ -429,7 +433,7 @@ export default function LoginForm() {
                                         <div className="flex gap-2 lg:gap-1.5">
                                             <input
                                                 type="email" placeholder="john@example.com" value={email} onChange={(e) => setEmail(e.target.value)}
-                                                disabled={isOtpSent}
+                                                disabled={isOtpSent} autoComplete="off"
                                                 className="w-2/3 px-3.5 py-2.5 lg:px-3 lg:py-1.5 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-lg text-base lg:text-xs text-slate-800 font-medium focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:bg-white transition-all disabled:opacity-50"
                                             />
                                             <button
@@ -448,13 +452,13 @@ export default function LoginForm() {
                                             <div>
                                                 <label className="block text-xs lg:text-[10px] font-bold text-slate-700 mb-1 lg:mb-0.5 mt-2">Verify OTP</label>
                                                 <input
-                                                    type="text" placeholder="Enter 6-digit OTP" value={otp} onChange={(e) => setOtp(e.target.value)}
+                                                    type="text" placeholder="Enter 6-digit OTP" value={otp} onChange={(e) => setOtp(e.target.value)} autoComplete="off"
                                                     className="w-full px-3.5 py-2.5 lg:px-3 lg:py-1.5 bg-slate-50 border border-slate-200 rounded-xl lg:rounded-lg text-base lg:text-xs text-slate-800 font-bold tracking-widest focus:outline-none focus:border-slate-900 lg:focus:border-blue-600 focus:bg-white transition-all"
                                                 />
                                             </div>
 
-                                            <button type="submit" className="w-full py-3.5 lg:py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm lg:text-xs rounded-xl shadow-sm transition-all cursor-pointer mt-2">
-                                                Create Account →
+                                            <button type="submit" disabled={isSignUp} className="w-full py-3.5 lg:py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm lg:text-xs rounded-xl shadow-sm transition-all cursor-pointer mt-2 disabled:opacity-50">
+                                                {isSignUp ? "Creating..." : "Create Account →"}
                                             </button>
                                         </>
                                     )}
@@ -463,7 +467,7 @@ export default function LoginForm() {
                                 <div className="mt-4 lg:mt-2.5 text-center">
                                     <p className="text-xs lg:text-[11px] text-slate-600 font-medium">
                                         Already have an account?{" "}
-                                        <span onClick={() => setIsLoginView(true)} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
+                                        <span onClick={switchToLogin} className="text-blue-600 font-extrabold hover:underline cursor-pointer">
                                             Login
                                         </span>
                                     </p>
